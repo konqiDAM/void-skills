@@ -1,25 +1,26 @@
 # void-skills
 
 Skills for [OpenCode](https://opencode.ai). One folder per skill, each with a `SKILL.md` the
-harness loads when its description matches a request.
-
-Two skills today, built and reviewed together:
+harness loads when its description matches a request. Supporting files are read by the skill itself,
+at the moment it needs them.
 
 | Skill | What it is for |
 |---|---|
 | [`agentic-pipeline`](agentic-pipeline/SKILL.md) | run a non-trivial feature end to end: spec → review → plan → implement → review → ship |
 | [`review-queue`](review-queue/SKILL.md) | drive external reviewer models, one at a time, until each returns a clean verdict |
+| [`comfyui-setup`](comfyui-setup/SKILL.md) | operate a local ComfyUI install: model layout, launch flags, the failure modes |
+| [`game-asset-pipeline`](game-asset-pipeline/SKILL.md) | turn that install into game assets: sprites, textures, 3D props, video — with the licensing |
 
 ## Install
 
 ```sh
 git clone https://github.com/konqiDAM/void-skills.git
-cp -r void-skills/agentic-pipeline void-skills/review-queue ~/.config/opencode/skills/
+cp -r void-skills/agentic-pipeline void-skills/review-queue void-skills/comfyui-setup void-skills/game-asset-pipeline ~/.config/opencode/skills/
 ```
 
 On Windows the target is `%USERPROFILE%\.config\opencode\skills\`. A symlink works too — the
 structure is the same one OpenCode reads: `<skills>/<name>/SKILL.md`, with any `references/` read by
-the skill itself, at the moment it needs them.
+the skill itself when it needs them.
 
 ## agentic-pipeline
 
@@ -81,7 +82,46 @@ automatic substitute.
 log. `references/briefs.md` holds the exact text sent to a reviewer — the spec, plan and code
 briefs plus the resend addendum — and loads only at the first dispatch.
 
-## How the two fit
+## comfyui-setup
+
+**Triggers on**: installing or running ComfyUI, adding or moving models, a workflow that will not
+load, "missing model", out-of-memory or black-screen crashes, the video pipeline's launch flags.
+
+**What it does**: the operating manual for one machine. It covers the folder layout and which model
+type belongs in which folder; nine critical rules (update both `widgets_values` and
+`widgets_values_named`, restart after adding a model, int8/FP8 builds for 28 GB of RAM, the H3
+video flags, never mix model types); the install procedure for a new model, including a safetensors
+header check and verifying the loader sees it; normal and video launch commands; a model/settings
+table; and a common-issues table — `hostbuf_file_reader_read failed`, the H3 `Fault failed: 2`, the
+TDR black screen, the "missing model" dialog, a model absent from the dropdown.
+
+**Assumes**: Windows, ComfyUI 0.44.0 portable at `D:\AI\ComfyUI`, models at `D:\AI\models`, 24 GB
+VRAM, 28 GB RAM. The paths are hard-coded — on another machine, edit them first.
+
+## game-asset-pipeline
+
+**Triggers on**: making sprites, textures, 3D props, video clips or skyboxes for a game.
+
+**What it does**: maps a task to the model and the exact workflow JSON, then gives the steps per
+asset type:
+
+| Asset | Route |
+|---|---|
+| Sprites | SDXL + Pixel-Art-XL → nearest-neighbour downscale → palette-limit → hand cleanup → seed lock or a character LoRA |
+| Textures | tileable albedo → seam fix → PBR extraction → ORM channel-pack → upscale |
+| 3D props | concept image → Pixal3D / TRELLIS.2 → remesh and decimate → retopo, UV, LOD in Blender → auto-rig → export |
+| Video | MiniMax H3, 5 s at 864×480, 4-step turbo |
+| Skyboxes | Z-Image Turbo with the equirectangular LoRA |
+
+Each pipeline states its honest limit — AI pixel art is not a true pixel grid, precise brick
+patterns still belong in Substance Designer, characters still need manual rigging — and the skill
+carries a licensing table that separates Apache/MIT (ship it), revenue-capped, non-commercial and
+research-only models, plus the disclosure rules (Steam, Civitai LoRAs, US copyright).
+
+**Assumes**: the machine above, with `comfyui-setup` already applied. It also names specific
+installed models, so the "installed vs available on request" list is a snapshot.
+
+## How the pairs fit
 
 ```
 agentic-pipeline
@@ -90,11 +130,23 @@ agentic-pipeline
   Phase 5  ──► review-queue (plan)
   Phase 7  ──► review-queue (code, per task then the branch)
   Phase 8      ship
+
+game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 ```
 
 `review-queue` is usable on its own: point it at a spec, a plan, a diff or a PR.
+`game-asset-pipeline` assumes the install `comfyui-setup` describes.
 
-## Principles both skills follow
+## Requirements
+
+- **OpenCode**. These are OpenCode skills; nothing here is Tauri, Node or a web app.
+- **superpowers** — `agentic-pipeline` delegates to nine of its skills, and `review-queue`'s code
+  kit can use `ponytail-review`. Without them the pipeline names delegates that do not exist.
+- **ComfyUI + a 24 GB GPU** for the two AI skills. No code dependencies.
+- Reviewer models: the three IDs above, plus a working `opencode-go` (or `opencode`) provider. If a
+  model is capped, the queue stops and asks — by design.
+
+## Principles the coding skills follow
 
 - **The human owns the gates.** A gate is an answer, not an assumption — "sounds good" is not
   approval of a document nobody read.
@@ -107,6 +159,6 @@ agentic-pipeline
 
 ## History
 
-Every design decision, review round, finding and ruling for these skills is in
+Every design decision, review round, finding and ruling for the coding skills is in
 [`agentic-pipeline/REVIEW-LOG.md`](agentic-pipeline/REVIEW-LOG.md). It is long on purpose: it records
 what was tried, what broke, and why the current text says what it says.
