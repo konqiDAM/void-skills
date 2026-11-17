@@ -32,10 +32,10 @@
    its own run: watch it too, and a red one is a stop — report it and name the tag rather than
    deleting or force-pushing it without the human's word.
 5. **Clean up.** `finishing-a-development-branch`'s checks are already met: the local gate ran in
-   step 1, the merged result was re-tested in step 3, END answered its menu, and its cleanup covers
-   only the worktrees it created under `.worktrees/` or `worktrees/` — which the pipeline's own is
-   not. So the pipeline does the removal, when there is one to do: on the worktree path, move the
-   session to the primary checkout first
+   step 1, the merged result was re-tested in step 3, END answered its menu. Skip its cleanup step
+   outright — it decides ownership by path, not by creator, and could remove the pipeline's own
+   worktree. The pipeline removes that one instead: on the worktree path, move the session to the
+   primary checkout first
    (`session_move`), then `worktree_remove`. On the decline path the work is already in the primary
    checkout and there is nothing to move or remove. If the removal refuses because the worktree still holds
    uncommitted files, stop and show them: move or delete them on the human's word, never force —

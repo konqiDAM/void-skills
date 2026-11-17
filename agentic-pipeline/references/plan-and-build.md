@@ -64,10 +64,8 @@ Critical/Must fix and Important/Should fix automatically, record each decision, 
 external clean verdict as the gate before advancing. Minor/Nice to have findings may be ruled away
 with a reason. Choose `None` at Phase 2 when you want only the builder's own reviews.
 
-With `both`, the kit runs conformance then quality per model — `review-queue` has the order. Per
-task, then again over the whole branch unless the branch setting is `none`. One reviewer is usually
-enough for a per-task diff and three belong at the branch — advice for filling the sheet in, not
-licence to shrink it.
+With `both`, the kit runs conformance then quality per model — `review-queue` has the order. The
+recorded list runs per task and again over the whole branch.
 
 ---
 

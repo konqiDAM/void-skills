@@ -80,7 +80,8 @@ Then set up the workspace, before writing anything:
 - **Check isolation first.** Run `using-git-worktrees`' Step 0 detection: if the session is already
   in a linked worktree (and not a submodule), work there, create nothing new, and skip the consent
   question — there is nothing to create.
-- **Ask consent for the worktree**, through the selector. `using-git-worktrees` requires it. If
+- **Ask consent for the worktree**, through the selector — only when no preference has been declared
+  and the session is not already isolated; that is when `using-git-worktrees` requires it. If
   they consent, create it and move the session into it — `worktree_create` returns a directory, and
   `session_move` with no sessionID moves the current session. If they decline, create a branch in
   the primary checkout and run setup and the baseline there — never on `main`, never on whatever
@@ -149,13 +150,16 @@ conflict. Any change requires a new explicit change request and a new review/app
 The spec file exists. Ask which reviewers the whole run uses — once, here, never again:
 
 - **Which reviewers** — one multi-select through the selector (`multiple: true`), with every name
-  from `review-queue/references/models.md` as an option in roster order, the first row preselected,
-  plus a `None` option. Zero boxes ticked means `None`; only a dismissed picker is re-asked.
+  from `../review-queue/references/models.md` as an option in roster order, the first row preselected,
+  plus a `None` option. `None` must be ticked explicitly: a submit with nothing ticked, or a dismissed
+  picker, is an error — ask the question again.
 
 This one selection covers the spec review, the plan review, every task review and the branch pass.
 Record it in the spec's constraints as `Reviewers: <names in roster order>` before approval. Later
-phases read that line, never the sheet. A substitute for a failed model is reported, not written
-into the spec — the approved spec is frozen.
+phases read that line, never the sheet. An autopilot substitute is reported, not written into the
+spec — the approved spec is frozen. A replacement you name under `stop` is different: it is recorded
+in the review log as an override and used by every later review point, so the dead model is never
+dispatched again.
 
 `None` means no external queue runs: note it, go straight to the human confirmation below, and
 carry `None` forward to the later review points.

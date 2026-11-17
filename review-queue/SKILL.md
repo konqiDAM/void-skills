@@ -15,7 +15,8 @@ settles them depends on how you got here:
 
 - **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
   recorded in the spec; it is used for every artifact. It also supplies the failure policy:
-  `substitute` (autopilot) or `stop` (every other mode). Do not ask again, and do not ask where the
+  `substitute` (autopilot) or `stop` (every other mode), and the code kit from the sheet's `CODE KIT`
+  row, so nothing is asked at the code phase. Do not ask again, and do not ask where the
   log goes — the locations are fixed below by artifact type.
 - **Standalone:** ask the human, through the selector, with the same multi-select over the roster's
   names that the pipeline uses in Phase 2. For a code artifact ask the kit as well — `requesting-code-review`, `ponytail-review`
@@ -40,9 +41,10 @@ settles them depends on how you got here:
    recorded reason. The conditions that need a human are in **Triage** below.
 3. **A model that is missing, gone or rates out is handled by the caller's failure policy.** Retry
    once. With `stop`, stop the queue and ask the human which model to use instead. With
-   `substitute`, take the next unused row of `references/models.md` in order, note the substitution,
-   and keep the count the human chose — **one substitute per failed slot**, until it succeeds or the
-   roster is exhausted, then stop and report. Never substitute without the policy. A failed call
+   `substitute`, take the highest-ranked unused row of `references/models.md` — scan the roster top
+   to bottom for the first row not already used or failed — note the substitution, and keep the count
+   the human chose — **one substitute per failed slot**, until it succeeds or the roster is
+   exhausted, then stop and report. Never substitute without the policy. A failed call
    does not count as clean.
 
 ## Who reviews

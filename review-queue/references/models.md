@@ -2,7 +2,8 @@
 
 The reviewers, **in order of preference**. The order *is* the roster: the first row is preselected
 in the menu, the queue runs the selected names in this order (never click order), and a failure in
-autopilot substitutes the next unused row top to bottom.
+autopilot substitutes the highest-ranked unused row — scan top to bottom, skipping rows already used
+or failed.
 
 | # | Name | Model ID |
 |---|---|---|

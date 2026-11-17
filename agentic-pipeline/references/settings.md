@@ -18,16 +18,17 @@ ask.
 
 Every review point from here on asks only when to involve you — `continue` or `wait`. The reviewers
 were chosen once in Phase 2 and recorded in the spec: this sheet reads that list and never changes
-it. Each later phase prints the after-green setting before it runs (`Plan review: wait`) and never
+it (the roster is `../review-queue/references/models.md`). Each later phase prints the after-green setting before it runs (`Plan review: wait`) and never
 asks again.
 
 `CODE KIT` picks the review skill for the code points — settled here, because every pipeline
 question is settled before the plan.
 
-These are **setup, so they batch**: one selector call, one entry per row above that applies — VERSION
-is included whenever the repo has no tag convention (it is only used when PUBLISH is `push and
-tag`), and skipped otherwise. Each row's Default is the recommendation, offered first. The table is
-what the agent shows before it asks, not a form the human types into.
+These are **setup, so they batch**: one selector call, one entry per row above. VERSION is always
+in the call — it is only used when PUBLISH is `push and tag`, and its default is the repo's tag
+convention, which the answer may override. That keeps the version settled here rather than asked at
+the release. Each row's Default is the recommendation, offered first. The table is what the agent
+shows before it asks, not a form the human types into.
 
 END's default is the git flow the contract describes, not an opinion about this repo. The plan
 review is `continue` by default — the plan is always checked, because every later mistake inherits

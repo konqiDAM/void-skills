@@ -682,6 +682,29 @@ substitution (unchanged), Phase 5/7 reading the old source, two stale statements
 case. One more was caught while re-reading: **the spec review happens before the sheet chooses the
 mode**, so it must use `stop`; `substitute` begins at the plan review.
 
+## 2026-11-17 — independent review with DeepSeek V4.1 Flash
+
+VERDICT: MAJOR, 8 findings, 3 questions. Seven fixed immediately; two need the human's choice.
+
+| # | Finding | Outcome |
+|---|---|---|
+| F1 | Phase 7 still spoke of a `none` branch setting and per-stage reviewer counts | accepted — the recorded list runs per task and at the branch, no counts advised |
+| F2 | `None` and zero ticks both mean "no reviewers", and an empty submit is indistinguishable from a dismissal | **open** — question below |
+| F3 | A human-named replacement under `stop` was never recorded, so later artifacts re-dispatched the dead model | accepted — recorded in the review log as an override and used for the rest of the run |
+| F4 | The queue's pipeline branch never said who supplies the code kit | accepted — the sheet's `CODE KIT` row is named |
+| F5 | "using-git-worktrees requires consent" misstates the skill, which waives it for a declared preference | accepted — consent only when no preference is declared and not already isolated |
+| F6 | VERSION was gated on the tag convention, not on PUBLISH, which consumes it | accepted — always in the sheet, used only by `push and tag`, defaulting to the convention |
+| F7 | Ship asserted where `worktree_create` places its worktree | accepted — skip the finishing skill's cleanup outright; never claim the path |
+| F8 | The roster path was relative to the skills root, unlike every other pointer | accepted — `../review-queue/references/models.md` in both places |
+
+Q1 (does a human-named replacement stick?) ruled: yes — fixed in F3.
+Q2 and Q3 are put to the human.
+
+**The human ruled on both.** Q2: a zero-tick submit is an error and the question is re-asked; only
+an explicit `None` tick turns reviews off. Q3: a substitute is the highest-ranked unused row — scan
+the roster top to bottom, skipping rows already used or failed, not simply the row after the dead
+one. Both applied.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot
