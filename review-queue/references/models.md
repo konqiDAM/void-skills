@@ -14,9 +14,11 @@ or failed.
 | 5 | Hy4 flash Free (high) | `opencode/hy4-flash-free#high` |
 | 6 | MiMo-V2.6-Flash Free | `opencode/mimo-v2.6-flash-free` |
 | 7 | Nemotron 3 Ultra 550B A55B Free (high) | `openrouter/nvidia/nemotron-3-ultra-550b-a55b:free#high` |
+| 8 | DeepSeek V4.1 Flash | `opencode-go/deepseek-v4.1-flash` |
 
 Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4, 5
-and 7, and no suffix for row 6, which offers none. Do not drop a suffix that is named.
+and 7, and no suffix for rows 6 and 8, which use the model's default. Do not drop a suffix that is
+named.
 
 **Row 6 is added on the catalogue's word, not a live call.** Both attempts returned `Free usage
 limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
