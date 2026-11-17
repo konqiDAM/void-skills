@@ -8,8 +8,13 @@ row, a pair the first two, "all" the whole list. Naming a model skips the order.
 | 1 | Beam Free (max) | `opencode-go/beam-free#max` |
 | 2 | MiniMax M3.1 Flash Free (max) | `opencode/minimax-m3.1-flash-free#max` |
 | 3 | GLM 5.3 Flash Free (max) | `opencode/glm-5.3-flash-free#max` |
+| 4 | ERNIE-Light-DT-1.0 (max) | `openrouter/baidu/ernie-light-dt-1.0-intl#max` |
 
 All of them run at `max`. Do not drop the suffix.
+
+Rows 1–3 are served by `opencode` and `opencode-go`; row 4 comes from `openrouter`, so a run that
+reaches it needs that provider configured. A provider without credit fails like a capped model —
+law 3 stops the run and the human chooses.
 
 **Changing the roster is an edit to this table only** — no other file names a model. Keep the order
 meaningful: the first row is what a one-reviewer run gets, so the strongest general reader goes
