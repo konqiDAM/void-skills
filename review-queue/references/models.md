@@ -15,16 +15,17 @@ or failed.
 | 6 | MiMo-V2.6-Flash Free | `opencode/mimo-v2.6-flash-free` |
 | 7 | Nemotron 3 Ultra 550B A55B Free (high) | `openrouter/nvidia/nemotron-3-ultra-550b-a55b:free#high` |
 | 8 | DeepSeek V4.1 Flash | `opencode-go/deepseek-v4.1-flash` |
+| 9 | Big Pickle | `opencode/big-pickle` |
 
 Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4, 5
-and 7, and no suffix for rows 6 and 8, which use the model's default. Do not drop a suffix that is
+and 7, and no suffix for rows 6, 8 and 9, which use the model's default. Do not drop a suffix that is
 named.
 
 **Row 6 is added on the catalogue's word, not a live call.** Both attempts returned `Free usage
 limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
 answers.
 
-Rows 1–3, 5, 6 and 8 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
+Rows 1–3, 5, 6, 8 and 9 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
 so a run that reaches them needs that provider configured. A provider without credit is just another
 failed call — law 3's failure policy decides: `stop` asks the human, `substitute` takes the
 highest-ranked unused row.
