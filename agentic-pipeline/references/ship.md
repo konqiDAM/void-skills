@@ -30,7 +30,8 @@
    the local gate is the whole verification and the report says so. No CLI and no way to poll: every
    mode hands the URL over and asks, except autopilot, which stops there and reports it. Red: fix
    and push again, two attempts. Once the run is green and PUBLISH is `push and tag`, create the tag
-   from the repo's convention and push it — the release is published only now. That tag push starts
+   from the repo's convention — with none, from the sheet's `VERSION` row — and state the version
+   before creating it, then push it — the release is published only now. That tag push starts
    its own run: watch it too, and a red one is a stop — report it and name the tag rather than
    deleting or force-pushing it without the human's word.
 5. **Clean up.** `finishing-a-development-branch`'s checks are already met: the local gate ran in

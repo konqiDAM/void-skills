@@ -15,7 +15,7 @@ settles them depends on how you got here:
 
 - **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
   recorded in the spec; it is used for every artifact, together with any recorded
-  `Reviewers override:` from a human-named replacement. It also supplies the failure policy:
+  `Reviewers override:` record — autopilot substitutes are recorded there too. It also supplies the failure policy:
   `substitute` (autopilot) or `stop` (every other mode); the **spec review always uses `stop`**, even
   when STOPS becomes autopilot later — `substitute` begins at the plan review. It also supplies the
   code kit from the sheet's `CODE KIT`
@@ -171,10 +171,10 @@ Report rounds per reviewer, each verdict, every rejected finding with its ruling
 still open. Then the human rules. A fourth round happens only if they ask.
 
 **Autopilot is different:** the three-round cap does not apply. The queue keeps sending the updated
-artifact to the same reviewer until it is clean, or until a ruled-away finding it disputes reaches
-an exhausted roster. The final report states the rounds per reviewer. This is what keeps a default
-autonomous run from stopping at nearly every review — in the log, every artifact needed three or
-more rounds.
+artifact to the same reviewer until it is clean. If the reviewer disputes a ruling it will not accept,
+or the roster is exhausted, stop and ask the human — those are the only exits. The final report states
+the rounds per reviewer. This is what keeps a default autonomous run from stopping at nearly every
+review — in the log, every artifact needed three or more rounds.
 
 A gate `Change` — the human sending a spec or plan back for revision — produces a **new artifact**:
 round counts start at zero and the "could have raised it in round 1" comparison starts fresh. The

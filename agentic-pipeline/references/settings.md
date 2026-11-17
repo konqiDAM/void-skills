@@ -48,7 +48,8 @@ task is complete.
 
 - `stop at each step` — you are asked after the plan review, after each task, after the branch
   review, and once at the end — one pause covering the merge and the push together. Each per-task pause shows that task's green summary
-  and asks continue or stop. The spec approval already happened in Phase 2, and
+  and asks continue or stop — "stop" ends the run with the ship report and leaves the worktree in
+  place. The spec approval already happened in Phase 2, and
   the settings sheet is itself a question, so neither is a stop.
 - `stop after the auto review` — one stop: the run goes through the spec review, the plan and the
   plan review, and stops when the plan review is green, before a line of code is written. Your word
@@ -95,7 +96,7 @@ hard stops:
 - a side effect outside the worktree that END did not name;
 - a plan whose every available path risks breaking the spec, scope, or an irreversible boundary;
 - a review queue hitting an escalation trigger (`review-queue` — a disputed ruling or an exhausted
-  roster in autopilot);
+  roster in autopilot, both of which stop and ask);
 - a reviewer model that dies or cannot be reached with no roster row left to substitute
   (`review-queue` law 3 — autopilot substitutes top-down, every other mode stops);
 - a finding only the human can answer — a scope change, an approved spec conflict, domain

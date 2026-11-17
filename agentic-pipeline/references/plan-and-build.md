@@ -28,8 +28,9 @@ and proceed without asking. `Approve` makes the plan the execution contract. `Ch
 their note: the plan file is edited and the queue runs again on the new text, the same loop the
 spec gets in Phase 2. Under `stop at each step` and `stop after the auto review` this is the stop,
 whatever the setting says. Under `stop before shipping` and `autopilot` it is a stop only where
-the plan review says `wait`. If the recorded list is `None`, this stop becomes a plain plan approval, as the STOPS bullet
-says.
+the plan review says `wait`. With `Reviewers: None`, only `stop at each step` and
+`stop after the auto review` get a plain plan approval; `stop before shipping` and `autopilot` run on
+without one.
 
 ## Phase 6 — Implement
 
@@ -48,7 +49,9 @@ the sheet named is stuck, not careful. Every other item on that skill's stop lis
 ## Phase 7 — Code review
 
 Read the spec's `Reviewers:` line and its `## Reviewers` override section the same way — overrides
-replace the named entries, original order stands — and take the sheet's task-review after-green. The
+replace the named entries, original order stands — and take the sheet's task-review after-green. If
+the recorded list is `None`, no external pass runs and there is no verdict to show; the builder's own
+reviews still run. The
 per-task pass sits between the builder's tasks — the next task
 starts only after that reviewer is clean — and the branch pass runs once, over the whole branch, at
 the end. `continue` moves to the next task, `wait` puts the green verdict to the selector. The review
@@ -68,7 +71,9 @@ the no-implementer sentence stands — that is what `one agent inline` buys, and
 dispatch would change the cost the human chose. Where a review point is configured, the external
 `review-queue` pass is the final authority: fix or rule on
 Critical/Must fix and Important/Should fix automatically, record each decision, and treat the
-external clean verdict as the gate before advancing. Minor/Nice to have findings may be ruled away
+external clean verdict as the gate before advancing. Its fixes are applied by the controller,
+overriding the builder's "resume the implementer" rule for external findings only — the builder's own
+task review still follows that rule. Keep each fix RED→GREEN before resending. Minor/Nice to have findings may be ruled away
 with a reason. Choose `None` at Phase 2 when you want only the builder's own reviews.
 
 With `both`, the kit runs conformance then quality per model — `review-queue` has the order. The
