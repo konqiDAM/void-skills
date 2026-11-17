@@ -67,20 +67,18 @@ until it says clean — the controller fixes what it found and sends the updated
 session where possible — then the next reviewer starts. Three rounds on one reviewer with no clean
 verdict stops the queue and asks the human.
 
-**The roster** (all at `max`):
-
-| Name | Model ID |
-|---|---|
-| Beam Free | `opencode-go/beam-free#max` |
-| MiniMax M3.1 Flash Free | `opencode/minimax-m3.1-flash-free#max` |
-| GLM 5.3 Flash Free | `opencode/glm-5.3-flash-free#max` |
+**The roster** lives in [`review-queue/references/models.md`](review-queue/references/models.md), in
+order of preference — the order *is* the roster, so one reviewer means the first row and "all" means
+the whole list. Adding, removing or reordering a model is an edit to that table only; no other file
+names one.
 
 A model that is missing, capped or gone stops the run and the human picks the replacement — never an
 automatic substitute.
 
-**Layout**: `SKILL.md` holds the three laws, the roster, triage, receiving rules, escalation and the
-log. `references/briefs.md` holds the exact text sent to a reviewer — the spec, plan and code
-briefs plus the resend addendum — and loads only at the first dispatch.
+**Layout**: `SKILL.md` holds the three laws, triage, receiving rules, escalation and the log.
+`references/models.md` is the ordered roster. `references/briefs.md` holds the exact text sent to a
+reviewer — the spec, plan and code briefs plus the resend addendum — and loads only at the first
+dispatch.
 
 ## comfyui-setup
 
@@ -143,8 +141,8 @@ game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 - **superpowers** — `agentic-pipeline` delegates to nine of its skills, and `review-queue`'s code
   kit can use `ponytail-review`. Without them the pipeline names delegates that do not exist.
 - **ComfyUI + a 24 GB GPU** for the two AI skills. No code dependencies.
-- Reviewer models: the three IDs above, plus a working `opencode-go` (or `opencode`) provider. If a
-  model is capped, the queue stops and asks — by design.
+- Reviewer models: the roster in `review-queue/references/models.md`, plus a working `opencode-go`
+  (or `opencode`) provider. If a model is capped, the queue stops and asks — by design.
 
 ## Principles the coding skills follow
 

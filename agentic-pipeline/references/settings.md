@@ -8,9 +8,9 @@ ask.
 |---|---|---|
 | STOPS | stop at each step / stop after the auto review / stop before shipping / autopilot | autopilot |
 | BUILDER | one agent inline / one fresh agent per task | per task |
-| PLAN REVIEW | reviewers + after-green | 1 Beam, continue |
-| TASK REVIEW | reviewers + after-green | 1 Beam, continue |
-| BRANCH REVIEW | reviewers + after-green | all three, continue |
+| PLAN REVIEW | reviewers + after-green | 1 reviewer, continue |
+| TASK REVIEW | reviewers + after-green | 1 reviewer, continue |
+| BRANCH REVIEW | reviewers + after-green | all, continue |
 | CODE KIT | requesting-code-review / ponytail-review / both | requesting |
 | END | merge to main / PR / leave the branch | the git flow the contract names; with none named, no default — this row settles it |
 | PUBLISH | push and tag / push only / wait for me | wait for me |
@@ -18,14 +18,14 @@ ask.
 
 Every review point from here on asks the same two questions, and every phase uses its own answer:
 
-- **Reviewers** — `none`, one of Beam / MiniMax / GLM, any pair, or all three. How many and which in
-  one answer, so the count cannot drift from the names.
+- **Reviewers** — `none`, one, a pair, or all of them, by position in the roster
+  (`review-queue/references/models.md`). How many in one answer, so the count cannot drift.
 - **After they are green** — `continue`, or `wait` for your confirmation.
 
 The spec review's reviewers were already set in Phase 2, so these three are the future ones.
 `CODE KIT` picks the review skill for the code points — settled here, because every pipeline
 question is settled before the plan. Each later phase prints its setting before it runs (`Plan
-review: Beam + GLM, wait`) and never asks again.
+review: the first two, wait`) and never asks again.
 
 These are **setup, so they batch**: one selector call, one entry per row above that applies — VERSION
 is included whenever the repo has no tag convention (it is only used when PUBLISH is `push and

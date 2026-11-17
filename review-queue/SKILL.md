@@ -43,20 +43,16 @@ settles them depends on how you got here:
 
 ## Who reviews
 
+**The roster lives in `references/models.md`** — the models, their IDs, and their order of preference.
+Read it before the first dispatch. The order is the preference: one reviewer means the first row, a
+pair the first two, all of them the whole list. Naming a model skips the order.
+
 Resolve every ID with the models tool before dispatching — the catalogue it returns is a starting
 point, not the roster. Free models rotate, do not share a provider, and get capped.
 
 **A model missing from the catalogue can still be usable.** Try it once before stopping. Only a
 failed call, or a model that dies mid-run, counts as gone — then the run stops and the human
 picks the replacement (law 3).
-
-| Name | Model ID |
-|---|---|
-| Beam Free (max) | `opencode-go/beam-free#max` |
-| MiniMax M3.1 Flash Free (max) | `opencode/minimax-m3.1-flash-free#max` |
-| GLM 5.3 Flash Free (max) | `opencode/glm-5.3-flash-free#max` |
-
-All three run at `max`. Do not drop the suffix.
 
 One `subagent` call per reviewer, `agent: "general"`, passing the model **on the call** as
 `provider/model` (or `provider/model#variant`). The `description` is only a label. Without that

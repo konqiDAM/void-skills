@@ -147,8 +147,8 @@ conflict. Any change requires a new explicit change request and a new review/app
 
 The spec file exists. Ask what kind of review it gets:
 
-- **Which reviewers** — `none`, one of Beam / MiniMax / GLM, any pair, or all three. Default
-  `one: Beam`.
+- **Which reviewers** — `none`, one, a pair, or all of them — chosen by position in
+  `review-queue/references/models.md`, not by name. Default: `one`, the first row.
 
 That is the only question here: the spec has no after-green switch, because the human answers
 after the reviewers are green in every mode. Every later review point asks the same two
@@ -163,7 +163,7 @@ one-at-a-time rhythm for the spec questions — see Phase 1.
 reviewer, findings, rulings — and ask the human, through the selector:
 
 ```
-Green: Beam 3 rounds, MiniMax 1, GLM 2.
+Green: 3 reviewers, 6 rounds between them, every verdict clean.
 5 findings, 4 accepted, 1 rejected (Ruling in the log).
 
 Is this spec right as it stands, or does something change?
