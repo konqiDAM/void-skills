@@ -738,6 +738,12 @@ VERDICT: MAJOR, 5 findings, 1 question. All fixed; Q1 ruled yes.
 
 Q1 (one canonical place for overrides?) ruled: yes — the `## Reviewers` section in the spec.
 
+### 2026-11-17 — Beam Free (max), current text
+
+**VERDICT: CLEAN.** No findings, no questions. Beam's last clean was before the pick-once change;
+this one covers the current text, including the canonical override section, the resolved-list rule,
+the plan-approval gate, and the subagent resume/fallback statement.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot
