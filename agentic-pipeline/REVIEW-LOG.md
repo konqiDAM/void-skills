@@ -744,6 +744,21 @@ Q1 (one canonical place for overrides?) ruled: yes — the `## Reviewers` sectio
 this one covers the current text, including the canonical override section, the resolved-list rule,
 the plan-approval gate, and the subagent resume/fallback statement.
 
+## 2026-11-17 — Hy4 flash Free (high), full review
+
+VERDICT: MAJOR, 5 findings, 1 question. All closed.
+
+| # | Finding | Outcome |
+|---|---|---|
+| F1 | Two rules for when the review log is written | accepted — one timing rule: the log is written once the queue is green, stated in one place |
+| F2 | `None` plus the preselected row had no defined outcome | accepted — `None` must be the sole tick; any other combination is rejected and re-asked |
+| F3 | VERSION was called always-batched and also conditional | accepted — always in the call, including under `None` |
+| F4 | Writing an override into the frozen spec had no exemption | accepted — `## Reviewers` is exempt as a human gate ruling, not a change to the work |
+| F5 | The no-resume fallback omitted the brief, so a clean token might not be recognised | accepted — the fresh child receives the original brief, the updated artifact and the addendum |
+
+Q1 (`None` with a model still ticked?) ruled: reject the submit and re-ask — consistent with the
+zero-tick rule, so the reviewer list is never ambiguous.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot

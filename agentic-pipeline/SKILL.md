@@ -143,7 +143,9 @@ one. Non-goals. Constraints. Path:
 The spec file is written at the end of this phase. It is not approved yet: the human confirms it
 after the external review, in Phase 2. The approved spec is frozen. Implementation must not change
 it; if implementation proves the approved behavior wrong or incomplete, stop and present the
-conflict. Any change requires a new explicit change request and a new review/approval cycle.
+conflict. Any change requires a new explicit change request and a new review/approval cycle. The
+`## Reviewers` section is the one exception: a human-named replacement under `stop` is a gate ruling,
+not a change to the work, and may be written there without a new cycle.
 
 ## Phase 2 — Spec review
 
@@ -151,8 +153,9 @@ The spec file exists. Ask which reviewers the whole run uses — once, here, nev
 
 - **Which reviewers** — one multi-select through the selector (`multiple: true`), with every name
   from `../review-queue/references/models.md` as an option in roster order, the first row preselected,
-  plus a `None` option. `None` must be ticked explicitly: a submit with nothing ticked, or a dismissed
-  picker, is an error — ask the question again.
+  plus a `None` option. `None` must be the only tick — deselect the preselected row first. A submit
+  with nothing ticked, with `None` alongside another name, or a dismissed picker, is an error: ask
+  the question again.
 
 This one selection covers the spec review, the plan review, every task review and the branch pass.
 Record it in the spec's constraints as `Reviewers: <names in roster order>` before approval. Later

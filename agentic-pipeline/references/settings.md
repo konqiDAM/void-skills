@@ -31,7 +31,7 @@ the release. Each row's Default is the recommendation, offered first. The table 
 shows before it asks, not a form the human types into.
 
 If the recorded list is `None`, the three review rows and `CODE KIT` are moot — skip them; the sheet
-asks only STOPS, BUILDER, END and PUBLISH (and VERSION when applicable).
+asks only STOPS, BUILDER, END and PUBLISH (and VERSION, which is always in the call).
 
 END's default is the git flow the contract describes, not an opinion about this repo. The plan
 review is `continue` by default — the plan is always checked, because every later mistake inherits

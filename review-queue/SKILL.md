@@ -66,8 +66,9 @@ model that dies mid-run, counts as gone — then law 3 applies with the caller's
 
 One `subagent` call per reviewer, `agent: "general"`, passing the model **on the call** as
 `provider/model` (or `provider/model#variant`), and resuming the child with its returned `sessionID`
-when the harness supports it. Without session resume, use the fresh-session path below with the full
-resend addendum — the loop and its evidence do not depend on resume working. The `description` is only
+when the harness supports it. Without session resume, send a fresh child the original brief together
+with the updated artifact and the full resend addendum — the loop and its evidence do not depend on
+resume working. The `description` is only
 a label. Without the model argument the subagent inherits the session's model and the roster collapses
 into one voice reviewing itself.
 
@@ -141,8 +142,8 @@ Severity is one idea in two vocabularies:
 Non-blocking still blocks the queue: the reviewer returns clean only once you have fixed that
 finding or ruled it away with a reason. "Blocks the ship" is about what happens after.
 
-External reviewers are read-only. The controller applies fixes and appends the review log after
-each reviewer round; the reviewer never edits the artifact.
+External reviewers are read-only. The controller applies fixes; the reviewer never edits the
+artifact. The log is written once, when the queue is green — see **The log** below.
 
 ## Receiving
 
