@@ -22,6 +22,25 @@ On Windows the target is `%USERPROFILE%\.config\opencode\skills\`. A symlink wor
 structure is the same one OpenCode reads: `<skills>/<name>/SKILL.md`, with any `references/` read by
 the skill itself when it needs them.
 
+**Or paste this into any agent** — it is self-contained and tells the agent where the repo is and
+what to do with it:
+
+```
+Install the skills from https://github.com/konqiDAM/void-skills into my OpenCode setup.
+
+1. Find my OpenCode skills directory: ~/.config/opencode/skills
+   (Windows: %USERPROFILE%\.config\opencode\skills).
+2. Copy these folders into it, keeping their structure: agentic-pipeline, review-queue,
+   comfyui-setup, game-asset-pipeline. Symlinks are fine.
+3. Check each folder has SKILL.md and that the references/ subfolders came with it
+   (agentic-pipeline and review-queue both have one).
+4. If a skill with the same name already exists, show me the differences before replacing anything.
+5. agentic-pipeline needs the superpowers skills installed; the other three have no code
+   dependencies.
+
+Then tell me which skills are installed.
+```
+
 ## agentic-pipeline
 
 **Triggers on**: "run the pipeline", "full agentic", "spec then plan", "auto review", "full auto",
