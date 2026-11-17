@@ -8,20 +8,20 @@ row, a pair the first two, "all" the whole list. Naming a model skips the order.
 | 1 | Beam Free (max) | `opencode-go/beam-free#max` |
 | 2 | MiniMax M3.1 Flash Free (max) | `opencode/minimax-m3.1-flash-free#max` |
 | 3 | GLM 5.3 Flash Free (max) | `opencode/glm-5.3-flash-free#max` |
-| 4 | ERNIE-Light-DT-1.0 (max) | `openrouter/baidu/ernie-light-dt-1.0-intl#max` |
+| 4 | ERNIE 5.5 Flash Preview Free (high) | `openrouter/baidu/ernie-5.5-flash-preview:free#high` |
 | 5 | Hy4 flash Free (high) | `opencode/hy4-flash-free#high` |
 
-Each row runs at the variant its ID names — `max` where the model offers one, `high` for row 5,
-which has no `max`. Do not drop the suffix.
+Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4 and
+5. Do not drop the suffix.
 
 All but row 4 are served by `opencode` and `opencode-go`; row 4 comes from `openrouter`, so a run
 that reaches it needs that provider configured. A provider without credit fails like a capped
 model — law 3 stops the run and the human chooses.
 
-**Row 4 cannot run on this OpenRouter account.** Every call asks for 131 072 tokens and the account
-affords about 10 149 — at every variant, and the provider's own answer is "upgrade to a paid
-account". It is not the suffix and not the key's limit. Remove the row, or keep it for the day the
-account is upgraded; until then an "all" run stops at row 4 and asks.
+**Row 4 is proof that the catalogue is a hint, not a verdict.** The models tool does not list this
+slug, and it answers anyway. The listed ERNIE, `ERNIE-Light-DT-1.0`, does *not* work on this
+account — 131 072 tokens requested against about 10 149 afforded, at every variant — which is why
+the roster names the free 5.5 slug instead. Do not swap it back.
 
 **Changing the roster is an edit to this table only** — no other file names a model. Keep the order
 meaningful: the first row is what a one-reviewer run gets, so the strongest general reader goes
