@@ -11,9 +11,10 @@ row, a pair the first two, "all" the whole list. Naming a model skips the order.
 | 4 | ERNIE 5.5 Flash Preview Free (high) | `openrouter/baidu/ernie-5.5-flash-preview:free#high` |
 | 5 | Hy4 flash Free (high) | `opencode/hy4-flash-free#high` |
 | 6 | MiMo-V2.6-Flash Free | `opencode/mimo-v2.6-flash-free` |
+| 7 | Nemotron 3 Ultra 550B A55B Free (high) | `openrouter/nvidia/nemotron-3-ultra-550b-a55b:free#high` |
 
-Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4 and
-5, and no suffix for row 6, which offers none. Do not drop a suffix that is named.
+Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4, 5
+and 7, and no suffix for row 6, which offers none. Do not drop a suffix that is named.
 
 **Row 6 is added on the catalogue's word, not a live call.** Both attempts returned `Free usage
 limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
@@ -23,10 +24,10 @@ All but row 4 are served by `opencode` and `opencode-go`; row 4 comes from `open
 that reaches it needs that provider configured. A provider without credit fails like a capped
 model — law 3 stops the run and the human chooses.
 
-**Row 4 is proof that the catalogue is a hint, not a verdict.** The models tool does not list this
-slug, and it answers anyway. The listed ERNIE, `ERNIE-Light-DT-1.0`, does *not* work on this
-account — 131 072 tokens requested against about 10 149 afforded, at every variant — which is why
-the roster names the free 5.5 slug instead. Do not swap it back.
+**Rows 4 and 7 prove the catalogue is a hint, not a verdict.** The models tool lists neither slug and
+both answer. The listed ERNIE, `ERNIE-Light-DT-1.0`, does *not* work on this account — 131 072 tokens
+requested against about 10 149 afforded, at every variant — which is why the roster names the free
+5.5 slug instead. Do not swap either row back.
 
 **Changing the roster is an edit to this table only** — no other file names a model. Keep the order
 meaningful: the first row is what a one-reviewer run gets, so the strongest general reader goes
