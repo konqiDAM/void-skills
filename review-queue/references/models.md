@@ -40,6 +40,6 @@ point, not the roster — free models rotate, do not share a provider, and get c
 
 **A model missing from the catalogue can still be usable** — try it once. Only a failed call, or a
 model that dies mid-run, counts as gone. Then law 3 applies with the caller's failure policy: `stop`
-asks the human, `substitute` takes the next unused row top to bottom.
+asks the human, `substitute` takes the highest-ranked unused row, scanning top to bottom.
 
 **A quota that runs dry is not a bug**: the free lines cap first, and that is what law 3 is for.
