@@ -662,6 +662,26 @@ what fixed it last time — one full read and a rewrite, not another patch.
 
 **Escalation.** Round 5, no clean verdict. The human rules.
 
+## 2026-11-17 — pick once, substitute top-down
+
+The reviewer question moved from a count to a single multi-select, chosen at Phase 2 and reused for
+the whole run.
+
+| Decision | Where it landed |
+|---|---|
+| The menu | Phase 2: all roster names in order, first preselected, plus `None`; zero ticked means `None`, a dismissed picker is re-asked |
+| One selection for the whole run | recorded in the spec as `Reviewers: …`; the sheet keeps only `continue / wait`, and Phase 5/7 read the spec line |
+| Failure, non-autopilot | `stop`: retry once, then ask the human |
+| Failure, autopilot | `substitute`: retry once, take the next unused roster row top-down, one substitute per failed slot so the count does not shrink, then stop if the roster is exhausted |
+| Audit | the final report names every substitution: who was asked for, who ran, why |
+
+The plan review surfaced seven gaps before implementation, all closed: the frozen-spec problem
+(substitutions are reported, not written into the spec), the queue not knowing the mode (the policy
+is now passed in), `None` at Phase 2 (straight to the human confirmation), the count after a
+substitution (unchanged), Phase 5/7 reading the old source, two stale statements, and the empty-menu
+case. One more was caught while re-reading: **the spec review happens before the sheet chooses the
+mode**, so it must use `stop`; `substitute` begins at the plan review.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot

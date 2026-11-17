@@ -44,8 +44,9 @@
    (`git branch -d <branch>`). Keep the worktree when END=leave, and keep it for END=PR — the PR is
    where feedback lands, and the worktree is where you address it. Keep its name in the report.
 
-Report: what shipped, tasks and commits, rounds per reviewer, every ruling, the CI conclusion, and
-the list autopilot would have asked about.
+Report: what shipped, tasks and commits, rounds per reviewer, every ruling, every model substitution
+(who was asked for, who ran, and why), the CI conclusion, and the list autopilot would have asked
+about.
 
 ---
 

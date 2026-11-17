@@ -17,14 +17,14 @@ approves the plan unless the plan review says `wait` — the plan review still r
 
 ## Phase 5 — Plan review
 
-Print the sheet's plan-review setting, then run `review-queue` with its plan brief: that many
-reviewers, those names, in that order. When all are green, follow the second
+Read the `Reviewers:` line from the spec and the sheet's plan-review after-green, then run
+`review-queue` with its plan brief over exactly that list, in roster order. When all are green, follow the second
 answer — `continue`, or `wait`, where the green verdict goes to the selector as `Approve` /
 `Change`. `Approve` makes the plan the execution contract. `Change` goes back to Phase 4 with
 their note: the plan file is edited and the queue runs again on the new text, the same loop the
 spec gets in Phase 2. Under `stop at each step` and `stop after the auto review` this is the stop,
 whatever the setting says. Under `stop before shipping` and `autopilot` it is a stop only where
-the plan review says `wait`. If the plan review is `none`, no reviewers run and the stop of
+the plan review says `wait`. If the recorded list is `None`, no reviewers run and the stop of
 `stop after the auto review` becomes a plain plan approval.
 
 ## Phase 6 — Implement
@@ -43,7 +43,7 @@ the sheet named is stuck, not careful. Every other item on that skill's stop lis
 
 ## Phase 7 — Code review
 
-Print the task-review setting. The per-task pass sits between the builder's tasks — the next task
+Read the `Reviewers:` line from the spec and the sheet's task-review after-green. The per-task pass sits between the builder's tasks — the next task
 starts only after that reviewer is clean — and the branch pass runs once, over the whole branch, at
 the end. `continue` moves to the next task, `wait` puts the green verdict to the selector. The review
 row is not the only gate: under `stop at each step` the run pauses after every task and after the
@@ -62,8 +62,7 @@ dispatch would change the cost the human chose. Where a review point is configur
 `review-queue` pass is the final authority: fix or rule on
 Critical/Must fix and Important/Should fix automatically, record each decision, and treat the
 external clean verdict as the gate before advancing. Minor/Nice to have findings may be ruled away
-with a reason. Set a review point to `none` when you want the builder's review without the extra
-external pass.
+with a reason. Choose `None` at Phase 2 when you want only the builder's own reviews.
 
 With `both`, the kit runs conformance then quality per model — `review-queue` has the order. Per
 task, then again over the whole branch unless the branch setting is `none`. One reviewer is usually

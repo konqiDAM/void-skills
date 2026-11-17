@@ -13,11 +13,12 @@ when the fix is a judgement call.
 The reviewers and the log are settled for every artifact; a code artifact settles the kit too. Who
 settles them depends on how you got here:
 
-- **Inside `agentic-pipeline`:** its settings supplied the reviewers — the spec ones in Phase 2,
-  the rest in the sheet. Do not ask again, and do not ask where the log goes — the locations are
-  fixed below by artifact type.
-- **Standalone:** ask the human, through the selector. `one` means the first in roster order unless
-  they name one. For a code artifact ask the kit as well — `requesting-code-review`, `ponytail-review`
+- **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
+  recorded in the spec; it is used for every artifact. It also supplies the failure policy:
+  `substitute` (autopilot) or `stop` (every other mode). Do not ask again, and do not ask where the
+  log goes — the locations are fixed below by artifact type.
+- **Standalone:** ask the human, through the selector, with the same multi-select over the roster's
+  names that the pipeline uses in Phase 2. For a code artifact ask the kit as well — `requesting-code-review`, `ponytail-review`
   or `both`, default `both` — because the clean verdict depends on it. The log goes in the artifact
   itself, except a PR, where it goes to a file next to it, and a standalone diff, where it goes to a
   file beside the diff. External reviewers never edit files; the controller appends the log.
@@ -37,22 +38,25 @@ settles them depends on how you got here:
    The controller triages each finding by severity, not by asking: Critical/Must fix and
    Important/Should fix are fixed automatically, Minor/Nice to have is fixed or ruled away with a
    recorded reason. The conditions that need a human are in **Triage** below.
-3. **A model that is missing, gone or rates out stops the run.** Retry once. If there is still no
-   answer, or its one trial call fails, stop the queue and ask the human which model to use
-   instead. Never substitute one on your own. It does not count as clean.
+3. **A model that is missing, gone or rates out is handled by the caller's failure policy.** Retry
+   once. With `stop`, stop the queue and ask the human which model to use instead. With
+   `substitute`, take the next unused row of `references/models.md` in order, note the substitution,
+   and keep the count the human chose — **one substitute per failed slot**, until it succeeds or the
+   roster is exhausted, then stop and report. Never substitute without the policy. A failed call
+   does not count as clean.
 
 ## Who reviews
 
 **The roster lives in `references/models.md`** — the models, their IDs, and their order of preference.
-Read it before the first dispatch. The order is the preference: one reviewer means the first row, a
-pair the first two, all of them the whole list. Naming a model skips the order.
+Read it before the first dispatch. The order is the preference, the default selection (the first row
+is preselected), and the substitution order. The queue runs the selected names in this order, never
+in click order.
 
 Resolve every ID with the models tool before dispatching — the catalogue it returns is a starting
 point, not the roster. Free models rotate, do not share a provider, and get capped.
 
-**A model missing from the catalogue can still be usable.** Try it once before stopping. Only a
-failed call, or a model that dies mid-run, counts as gone — then the run stops and the human
-picks the replacement (law 3).
+**A model missing from the catalogue can still be usable.** Try it once. Only a failed call, or a
+model that dies mid-run, counts as gone — then law 3 applies with the caller's failure policy.
 
 One `subagent` call per reviewer, `agent: "general"`, passing the model **on the call** as
 `provider/model` (or `provider/model#variant`). The `description` is only a label. Without that

@@ -8,24 +8,21 @@ ask.
 |---|---|---|
 | STOPS | stop at each step / stop after the auto review / stop before shipping / autopilot | autopilot |
 | BUILDER | one agent inline / one fresh agent per task | per task |
-| PLAN REVIEW | reviewers + after-green | 1 reviewer, continue |
-| TASK REVIEW | reviewers + after-green | 1 reviewer, continue |
-| BRANCH REVIEW | reviewers + after-green | all, continue |
+| PLAN REVIEW | after-green: continue / wait | continue |
+| TASK REVIEW | after-green: continue / wait | continue |
+| BRANCH REVIEW | after-green: continue / wait | continue |
 | CODE KIT | requesting-code-review / ponytail-review / both | requesting |
 | END | merge to main / PR / leave the branch | the git flow the contract names; with none named, no default — this row settles it |
 | PUBLISH | push and tag / push only / wait for me | wait for me |
 | VERSION | the version to tag, e.g. `v1.2.4` | next patch from `git tag --list 'v*'` |
 
-Every review point from here on asks the same two questions, and every phase uses its own answer:
+Every review point from here on asks only when to involve you — `continue` or `wait`. The reviewers
+were chosen once in Phase 2 and recorded in the spec: this sheet reads that list and never changes
+it. Each later phase prints the after-green setting before it runs (`Plan review: wait`) and never
+asks again.
 
-- **Reviewers** — `none`, one, a pair, or all of them, by position in the roster
-  (`review-queue/references/models.md`). How many in one answer, so the count cannot drift.
-- **After they are green** — `continue`, or `wait` for your confirmation.
-
-The spec review's reviewers were already set in Phase 2, so these three are the future ones.
 `CODE KIT` picks the review skill for the code points — settled here, because every pipeline
-question is settled before the plan. Each later phase prints its setting before it runs (`Plan
-review: the first two, wait`) and never asks again.
+question is settled before the plan.
 
 These are **setup, so they batch**: one selector call, one entry per row above that applies — VERSION
 is included whenever the repo has no tag convention (it is only used when PUBLISH is `push and
@@ -33,8 +30,8 @@ tag`), and skipped otherwise. Each row's Default is the recommendation, offered 
 what the agent shows before it asks, not a form the human types into.
 
 END's default is the git flow the contract describes, not an opinion about this repo. The plan
-review is never `none` by default — the plan is always checked, because every later mistake
-inherits it. The defaults stop you for one thing: the push (`PUBLISH wait for me`). That gate is
+review is `continue` by default — the plan is always checked, because every later mistake inherits
+it. The defaults stop you for one thing: the push (`PUBLISH wait for me`). That gate is
 deliberate — a push is the one action the run cannot take back. Choose `push only` if a default
 run should leave the machine on its own.
 
@@ -92,7 +89,8 @@ hard stops:
 - a side effect outside the worktree that END did not name;
 - a plan whose every available path risks breaking the spec, scope, or an irreversible boundary;
 - a review queue hitting an escalation trigger (`review-queue`);
-- a reviewer model that dies or cannot be reached (`review-queue` law 3);
+- a reviewer model that dies or cannot be reached with no roster row left to substitute
+  (`review-queue` law 3 — autopilot substitutes top-down, every other mode stops);
 - a finding only the human can answer — a scope change, an approved spec conflict, domain
   knowledge nobody in the run has;
 - a CI run that is red after its attempts, or that cannot be watched (Phase 8).

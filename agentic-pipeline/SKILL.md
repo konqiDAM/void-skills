@@ -37,8 +37,9 @@ the answer is the task itself.
 5. **One artifact, one reviewer at a time, until clean.** Never advance, never parallel.
 6. **Every question goes through the selector, in the right shape.** Setup questions — the sheet,
    reviewer choices, worktree consent — are asked **once each**, never dripped out: the sheet is one
-   call with one entry per decision, and the other two are their own single question. Git flow is
-   not asked separately; it is the sheet's END entry.
+   call with one entry per decision, the reviewer choice is one multi-select over the roster's names,
+   and worktree consent is its own single question. Git flow is not asked separately; it is the
+   sheet's END entry.
    Substance questions — a doubt about the spec, the plan, or what a requirement means — are asked
    **one at a time**: ask, wait, play it back, then the next. A text block expecting a typed reply
    is not a question, and a decision taken without one is a decision you took.
@@ -145,15 +146,25 @@ conflict. Any change requires a new explicit change request and a new review/app
 
 ## Phase 2 — Spec review
 
-The spec file exists. Ask what kind of review it gets:
+The spec file exists. Ask which reviewers the whole run uses — once, here, never again:
 
-- **Which reviewers** — `none`, one, a pair, or all of them — chosen by position in
-  `review-queue/references/models.md`, not by name. Default: `one`, the first row.
+- **Which reviewers** — one multi-select through the selector (`multiple: true`), with every name
+  from `review-queue/references/models.md` as an option in roster order, the first row preselected,
+  plus a `None` option. Zero boxes ticked means `None`; only a dismissed picker is re-asked.
+
+This one selection covers the spec review, the plan review, every task review and the branch pass.
+Record it in the spec's constraints as `Reviewers: <names in roster order>` before approval. Later
+phases read that line, never the sheet. A substitute for a failed model is reported, not written
+into the spec — the approved spec is frozen.
+
+`None` means no external queue runs: note it, go straight to the human confirmation below, and
+carry `None` forward to the later review points.
 
 That is the only question here: the spec has no after-green switch, because the human answers
-after the reviewers are green in every mode. Every later review point asks the same two
-questions — reviewers and after-green — and Phase 3 collects those in one call. Green is
-`review-queue`'s word for it: every reviewer in that list returned its own clean verdict.
+after the reviewers are green in every mode. Green is `review-queue`'s word for it: every reviewer
+in that list returned its own clean verdict. The stop mode is not chosen until the sheet, so this
+first review runs with the `stop` failure policy — a failed model here asks you, never substitutes.
+`substitute` applies from the plan review onward, if autopilot was chosen.
 
 Then `review-queue` runs exactly that list with its spec brief. This overrides `brainstorming`'s
 hard gate that sends an approved spec straight to the plan; it does **not** override the
