@@ -10,9 +10,14 @@ row, a pair the first two, "all" the whole list. Naming a model skips the order.
 | 3 | GLM 5.3 Flash Free (max) | `opencode/glm-5.3-flash-free#max` |
 | 4 | ERNIE 5.5 Flash Preview Free (high) | `openrouter/baidu/ernie-5.5-flash-preview:free#high` |
 | 5 | Hy4 flash Free (high) | `opencode/hy4-flash-free#high` |
+| 6 | MiMo-V2.6-Flash Free | `opencode/mimo-v2.6-flash-free` |
 
 Each row runs at the variant its ID names — `max` where the model offers one, `high` for rows 4 and
-5. Do not drop the suffix.
+5, and no suffix for row 6, which offers none. Do not drop a suffix that is named.
+
+**Row 6 is added on the catalogue's word, not a live call.** Both attempts returned `Free usage
+limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
+answers.
 
 All but row 4 are served by `opencode` and `opencode-go`; row 4 comes from `openrouter`, so a run
 that reaches it needs that provider configured. A provider without credit fails like a capped
