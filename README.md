@@ -151,8 +151,11 @@ game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 ## Requirements
 
 - **OpenCode**. These are OpenCode skills; nothing here is Tauri, Node or a web app.
-- **superpowers** — `agentic-pipeline` delegates to nine of its skills, and `review-queue`'s code
-  kit can use `ponytail-review`. Without them the pipeline names delegates that do not exist.
+- **superpowers** ([github.com/obra/superpowers](https://github.com/obra/superpowers)) — `agentic-pipeline`
+  delegates to nine of its skills. Without them the pipeline names delegates that do not exist.
+- **ponytail** ([github.com/DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) —
+  provides `ponytail-review`, one of the two `CODE KIT` choices. Install commands for both are in
+  [`Agents_Install.md`](Agents_Install.md).
 - **ComfyUI + a 24 GB GPU** for the two AI skills. No code dependencies.
 - Reviewer models: the roster in `review-queue/references/models.md`, plus a working `opencode-go`
   (or `opencode`) provider. If a model is capped, the queue stops and asks — by design.

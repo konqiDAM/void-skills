@@ -41,13 +41,19 @@ names a delegate that does not exist. Do not ask again; report what you chose.
 5. **If a skill with the same name is already installed, show a diff and ask before replacing it.**
    It may have been edited locally, and overwriting loses that work.
 6. Check the dependencies **only for the skills you selected**:
-   - **superpowers** — `agentic-pipeline` delegates to `brainstorming`, `writing-plans`,
-     `executing-plans`, `subagent-driven-development`, `requesting-code-review`,
-     `using-git-worktrees`, `finishing-a-development-branch`, `verification-before-completion` and
+   - **superpowers** — repo `https://github.com/obra/superpowers`. Its own OpenCode instruction is:
+     `Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md`.
+     `agentic-pipeline` delegates to `brainstorming`, `writing-plans`, `executing-plans`,
+     `subagent-driven-development`, `requesting-code-review`, `using-git-worktrees`,
+     `finishing-a-development-branch`, `verification-before-completion` and
      `test-driven-development`. Without them the pipeline names skills that do not exist.
-   - **ponytail** — provides `ponytail-review`, one of the two code-review skills (the other is
-     superpowers' `requesting-code-review`). Without it, the `CODE KIT` choices `ponytail` and `both`
-     cannot run. Needed by `agentic-pipeline` and by `review-queue` when used standalone on code.
+   - **ponytail** — repo `https://github.com/DietrichGebert/ponytail`; its OpenCode steps are in
+     `INSTALL.md` there. It provides `ponytail-review`, one of the two code-review skills (the other
+     is superpowers' `requesting-code-review`); the repo's own instruction for other agents is to
+     install `skills/ponytail-review/SKILL.md` as a skill. Without it, the `CODE KIT` choices
+     `ponytail` and `both` cannot run. Needed by `agentic-pipeline` and by `review-queue` when used
+     standalone on code. Install from that repo or `@dietrichgebert/ponytail` on npm only — the
+     author warns that copies shipping `.exe` or `.dll` files are not his.
    - The two AI skills assume Windows, ComfyUI at `D:\AI\ComfyUI`, models at `D:\AI\models\`, a 24 GB
      GPU and 28 GB RAM. On another machine, edit those paths in the copied files only. They have no
      other dependencies.
