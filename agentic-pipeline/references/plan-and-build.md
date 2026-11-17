@@ -17,7 +17,8 @@ approves the plan unless the plan review says `wait` — the plan review still r
 
 ## Phase 5 — Plan review
 
-Read the `Reviewers:` line from the spec and the sheet's plan-review after-green, then run
+Read the `Reviewers:` line from the spec plus any `Reviewers override:` record — that combined list
+is the reviewers — and the sheet's plan-review after-green, then run
 `review-queue` with its plan brief over exactly that list, in roster order. When all are green, follow the second
 answer — `continue`, or `wait`, where the green verdict goes to the selector as `Approve` /
 `Change`. `Approve` makes the plan the execution contract. `Change` goes back to Phase 4 with
@@ -43,7 +44,8 @@ the sheet named is stuck, not careful. Every other item on that skill's stop lis
 
 ## Phase 7 — Code review
 
-Read the `Reviewers:` line from the spec and the sheet's task-review after-green. The per-task pass sits between the builder's tasks — the next task
+Read the `Reviewers:` line from the spec plus any `Reviewers override:` record, and the sheet's
+task-review after-green. The per-task pass sits between the builder's tasks — the next task
 starts only after that reviewer is clean — and the branch pass runs once, over the whole branch, at
 the end. `continue` moves to the next task, `wait` puts the green verdict to the selector. The review
 row is not the only gate: under `stop at each step` the run pauses after every task and after the
@@ -56,7 +58,8 @@ plan-and-spec check, `ponytail-review` the quality audit. `review-queue` has the
 **The builder's own review and the external review have different jobs.** `subagent-driven-development`
 requires a task review and `executing-plans` requires a whole-branch review; both run. `executing-plans`
 also says it runs no implementer subagent per task, no reviewer per task, and no re-review. The
-sheet's TASK REVIEW overrides the reviewer-per-task sentence and BRANCH REVIEW the re-review one;
+pipeline's external passes override the reviewer-per-task and re-review sentences; TASK REVIEW and
+BRANCH REVIEW below are only the pause switches, not the authority to skip a pass.
 the no-implementer sentence stands — that is what `one agent inline` buys, and a per-task implementer
 dispatch would change the cost the human chose. Where a review point is configured, the external
 `review-queue` pass is the final authority: fix or rule on

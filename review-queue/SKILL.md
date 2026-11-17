@@ -14,12 +14,14 @@ The reviewers and the log are settled for every artifact; a code artifact settle
 settles them depends on how you got here:
 
 - **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
-  recorded in the spec; it is used for every artifact. It also supplies the failure policy:
+  recorded in the spec; it is used for every artifact, together with any recorded
+  `Reviewers override:` from a human-named replacement. It also supplies the failure policy:
   `substitute` (autopilot) or `stop` (every other mode), and the code kit from the sheet's `CODE KIT`
   row, so nothing is asked at the code phase. Do not ask again, and do not ask where the
   log goes — the locations are fixed below by artifact type.
 - **Standalone:** ask the human, through the selector, with the same multi-select over the roster's
-  names that the pipeline uses in Phase 2. For a code artifact ask the kit as well — `requesting-code-review`, `ponytail-review`
+  names that the pipeline uses in Phase 2. A standalone run's failure policy is `stop`: a failed
+  model asks the human for a replacement. For a code artifact ask the kit as well — `requesting-code-review`, `ponytail-review`
   or `both`, default `both` — because the clean verdict depends on it. The log goes in the artifact
   itself, except a PR, where it goes to a file next to it, and a standalone diff, where it goes to a
   file beside the diff. External reviewers never edit files; the controller appends the log.
@@ -42,10 +44,10 @@ settles them depends on how you got here:
 3. **A model that is missing, gone or rates out is handled by the caller's failure policy.** Retry
    once. With `stop`, stop the queue and ask the human which model to use instead. With
    `substitute`, take the highest-ranked unused row of `references/models.md` — scan the roster top
-   to bottom for the first row not already used or failed — note the substitution, and keep the count
-   the human chose — **one substitute per failed slot**, until it succeeds or the roster is
-   exhausted, then stop and report. Never substitute without the policy. A failed call
-   does not count as clean.
+   to bottom for the first row not already used or failed — note the substitution, and keep the
+   count the human chose: that slot takes another unused row whenever one fails, until one answers
+   or the roster is exhausted, then stop and report. Never substitute without the policy. A failed
+   call does not count as clean.
 
 ## Who reviews
 

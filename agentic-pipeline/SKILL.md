@@ -157,9 +157,10 @@ The spec file exists. Ask which reviewers the whole run uses — once, here, nev
 This one selection covers the spec review, the plan review, every task review and the branch pass.
 Record it in the spec's constraints as `Reviewers: <names in roster order>` before approval. Later
 phases read that line, never the sheet. An autopilot substitute is reported, not written into the
-spec — the approved spec is frozen. A replacement you name under `stop` is different: it is recorded
-in the review log as an override and used by every later review point, so the dead model is never
-dispatched again.
+spec — the approved spec is frozen. A replacement you name under `stop` is different: record it as
+`Reviewers override: <name>` in the plan file once the plan exists, and in the spec's review section
+before that. Every later phase reads the spec line plus its recorded overrides, so the dead model is
+never dispatched again.
 
 `None` means no external queue runs: note it, go straight to the human confirmation below, and
 carry `None` forward to the later review points.

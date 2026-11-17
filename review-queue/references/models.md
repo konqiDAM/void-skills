@@ -23,8 +23,9 @@ limit reached` — the same class as row 3: quota, not a broken ID. Treat it as 
 answers.
 
 Rows 1–3, 5 and 6 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
-so a run that reaches them needs that provider configured. A provider without credit fails like a
-capped model — law 3 stops the run and the human chooses.
+so a run that reaches them needs that provider configured. A provider without credit is just another
+failed call — law 3's failure policy decides: `stop` asks the human, `substitute` takes the
+highest-ranked unused row.
 
 **Rows 4 and 7 prove the catalogue is a hint, not a verdict.** The models tool lists neither slug and
 both answer. The listed ERNIE, `ERNIE-Light-DT-1.0`, does *not* work on this account — 131 072 tokens

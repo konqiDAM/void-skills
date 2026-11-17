@@ -705,6 +705,25 @@ an explicit `None` tick turns reviews off. Q3: a substitute is the highest-ranke
 the roster top to bottom, skipping rows already used or failed, not simply the row after the dead
 one. Both applied.
 
+## 2026-11-17 — DeepSeek V4.1 Flash, default variant
+
+VERDICT: MAJOR, 7 findings, 3 questions. All closed; three ruled by the human.
+
+| # | Finding | Outcome |
+|---|---|---|
+| F1 | The roster note said law 3 stops a provider without credit | accepted — it is another failed call; the policy decides, not the provider |
+| F2 | A human-named replacement was promised to later phases that only read the spec line | accepted — recorded as `Reviewers override:` in the plan file (or the spec's review section before it exists), and Phase 5/7 read the line plus overrides |
+| F3 | The substitute sentence supported "one per slot" and "retry until one works" | accepted — the slot takes another unused row until one answers or the roster is exhausted |
+| F4 | A standalone queue had no failure policy | accepted — standalone is `stop`, the human names the replacement |
+| F5 | With `Reviewers: None`, the review rows still promised a verdict to show | accepted — those rows and `CODE KIT` are moot and skipped |
+| F6 | `stop at each step` promised a gate before the merge *and* the push; ship.md has one | accepted — one pause covering both, settings.md's wording corrected |
+| F7 | BRANCH REVIEW was named as the override of executing-plans' no-re-review rule, but the row is only a pause switch | accepted — the override is attributed to the pipeline's external pass |
+
+Q1 (None still asks the sheet?) ruled: skip the review rows and the code kit.
+Q2 (two end pauses?) ruled: one, covering merge and push.
+Q3 (retry a failing substitute?) ruled: yes — keep taking the highest-ranked unused row until one
+answers, or the roster is exhausted.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot

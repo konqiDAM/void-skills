@@ -30,6 +30,9 @@ convention, which the answer may override. That keeps the version settled here r
 the release. Each row's Default is the recommendation, offered first. The table is what the agent
 shows before it asks, not a form the human types into.
 
+If the recorded list is `None`, the three review rows and `CODE KIT` are moot — skip them; the sheet
+asks only STOPS, BUILDER, END and PUBLISH (and VERSION when applicable).
+
 END's default is the git flow the contract describes, not an opinion about this repo. The plan
 review is `continue` by default — the plan is always checked, because every later mistake inherits
 it. The defaults stop you for one thing: the push (`PUBLISH wait for me`). That gate is
@@ -43,7 +46,7 @@ task is complete.
 **Where it stops.** STOPS is one choice, not a list — the four are exclusive:
 
 - `stop at each step` — you are asked after the plan review, after each task, after the branch
-  review, and before the merge and the push. Each per-task pause shows that task's green summary
+  review, and once at the end — one pause covering the merge and the push together. Each per-task pause shows that task's green summary
   and asks continue or stop. The spec approval already happened in Phase 2, and
   the settings sheet is itself a question, so neither is a stop.
 - `stop after the auto review` — one stop: the run goes through the spec review, the plan and the
