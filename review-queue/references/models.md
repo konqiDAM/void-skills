@@ -20,9 +20,9 @@ and 7, and no suffix for row 6, which offers none. Do not drop a suffix that is 
 limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
 answers.
 
-All but row 4 are served by `opencode` and `opencode-go`; row 4 comes from `openrouter`, so a run
-that reaches it needs that provider configured. A provider without credit fails like a capped
-model — law 3 stops the run and the human chooses.
+Rows 1–3, 5 and 6 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
+so a run that reaches them needs that provider configured. A provider without credit fails like a
+capped model — law 3 stops the run and the human chooses.
 
 **Rows 4 and 7 prove the catalogue is a hint, not a verdict.** The models tool lists neither slug and
 both answer. The listed ERNIE, `ERNIE-Light-DT-1.0`, does *not* work on this account — 131 072 tokens
