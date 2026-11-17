@@ -215,6 +215,3 @@ not exist yet.
 | "CI will catch it, or it'll be green in a minute" | CI confirms, and a queued or red run is not done. The same commands run locally first. |
 | "Reordering a phase is a small doc edit" | Every reordering so far has opened two seams. Re-read the whole path it touches. |
 
----
-
-History of this file's own reviews is kept locally in `REVIEW-LOG.md`; it is not published in this repo.

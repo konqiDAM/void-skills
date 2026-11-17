@@ -183,5 +183,5 @@ game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 
 ## History
 
-The full review history — every round, finding and ruling for the coding skills — is kept locally by
-the author and is not part of this public repo.
+The public history of these skills is the [git history](https://github.com/konqiDAM/void-skills/commits/main).
+An older, detailed review log is kept privately by the author.
