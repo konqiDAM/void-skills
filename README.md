@@ -25,14 +25,15 @@ the skill itself when it needs them.
 **Or paste this into any agent** — the details live in the repo, not in the prompt:
 
 ```
-Install the skills from https://github.com/konqiDAM/void-skills:
-fetch https://raw.githubusercontent.com/konqiDAM/void-skills/main/Agents_Install.md
-and follow it exactly, then tell me what you installed.
+Install skills from https://github.com/konqiDAM/void-skills:
+fetch https://raw.githubusercontent.com/konqiDAM/void-skills/main/Agents_Install.md and follow it.
+I want: agentic-pipeline (default) — change that to "all" or name a skill if needed.
 ```
 
-[`Agents_Install.md`](Agents_Install.md) lists the four folders, the target directory on both OSes,
+[`Agents_Install.md`](Agents_Install.md) holds the selection table, the target directory on both OSes,
 the `references/` files each skill needs, the superpowers and ponytail dependencies, the diff-before-
-overwrite rule, and what to report at the end.
+overwrite rule, and what to report at the end. By default the agent installs `agentic-pipeline` and
+its required `review-queue`; nothing else.
 
 ## agentic-pipeline
 
