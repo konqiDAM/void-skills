@@ -24,7 +24,7 @@ named.
 limit reached` — the same class as row 3: quota, not a broken ID. Treat it as unproven until a call
 answers.
 
-Rows 1–3, 5 and 6 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
+Rows 1–3, 5, 6 and 8 are served by `opencode` and `opencode-go`; rows 4 and 7 come from `openrouter`,
 so a run that reaches them needs that provider configured. A provider without credit is just another
 failed call — law 3's failure policy decides: `stop` asks the human, `substitute` takes the
 highest-ranked unused row.
