@@ -1,7 +1,7 @@
 # Agent install instructions
 
-You are installing the OpenCode skills from https://github.com/konqiDAM/void-skills. Follow these
-steps in order. Do not improvise a different layout.
+You are installing the OpenCode skills from [void-skills](https://github.com/konqiDAM/void-skills).
+Follow these steps in order. Do not improvise a different layout.
 
 ## Which skills
 
@@ -41,14 +41,14 @@ names a delegate that does not exist. Do not ask again; report what you chose.
 5. **If a skill with the same name is already installed, show a diff and ask before replacing it.**
    It may have been edited locally, and overwriting loses that work.
 6. Check the dependencies **only for the skills you selected**:
-   - **superpowers** — repo `https://github.com/obra/superpowers`. Its own OpenCode instruction is:
+   - **superpowers** — repo [obra/superpowers](https://github.com/obra/superpowers). Its own OpenCode instruction is:
      `Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md`.
      `agentic-pipeline` delegates to `brainstorming`, `writing-plans`, `executing-plans`,
      `subagent-driven-development`, `requesting-code-review`, `using-git-worktrees`,
      `finishing-a-development-branch`, `verification-before-completion` and
      `test-driven-development`. Without them the pipeline names skills that do not exist.
-   - **ponytail** — repo `https://github.com/DietrichGebert/ponytail`; its OpenCode steps are in
-     `INSTALL.md` there. It provides `ponytail-review`, one of the two code-review skills (the other
+   - **ponytail** — repo [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail); its
+     OpenCode steps are in [INSTALL.md](https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md). It provides `ponytail-review`, one of the two code-review skills (the other
      is superpowers' `requesting-code-review`); the repo's own instruction for other agents is to
      install `skills/ponytail-review/SKILL.md` as a skill. Without it, the `CODE KIT` choices
      `ponytail` and `both` cannot run. Needed by `agentic-pipeline` and by `review-queue` when used
