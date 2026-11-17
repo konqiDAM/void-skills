@@ -724,6 +724,20 @@ Q2 (two end pauses?) ruled: one, covering merge and push.
 Q3 (retry a failing substitute?) ruled: yes — keep taking the highest-ranked unused row until one
 answers, or the roster is exhausted.
 
+## 2026-11-17 — Big Pickle, full skill review
+
+VERDICT: MAJOR, 5 findings, 1 question. All fixed; Q1 ruled yes.
+
+| # | Finding | Outcome |
+|---|---|---|
+| F1 | The override's location was "the spec's review section" with no defined heading | accepted — one canonical `## Reviewers` section under the spec's Constraints, present from the first write; the plan file may mirror it but the spec wins |
+| F2 | "Combined list" did not say how an override interacts with the selection | accepted — each override replaces its named entry, original order stands, and the resolved list is stated before dispatch |
+| F3 | Phase 5 could present Approve/Change in modes where Phase 4 forbids plan approval | accepted — the gate is restated at the point of the question |
+| F4 | The review loop assumed `subagent` can resume by `sessionID` without naming the capability or a fallback | accepted — capability stated, fresh-session resend addendum named as the fallback |
+| F5 | Only the pipeline text carried the "spec review uses stop" exception | accepted — restated in `review-queue`'s agentic-pipeline branch |
+
+Q1 (one canonical place for overrides?) ruled: yes — the `## Reviewers` section in the spec.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot

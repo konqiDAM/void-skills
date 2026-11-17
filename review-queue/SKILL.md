@@ -16,7 +16,9 @@ settles them depends on how you got here:
 - **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
   recorded in the spec; it is used for every artifact, together with any recorded
   `Reviewers override:` from a human-named replacement. It also supplies the failure policy:
-  `substitute` (autopilot) or `stop` (every other mode), and the code kit from the sheet's `CODE KIT`
+  `substitute` (autopilot) or `stop` (every other mode); the **spec review always uses `stop`**, even
+  when STOPS becomes autopilot later — `substitute` begins at the plan review. It also supplies the
+  code kit from the sheet's `CODE KIT`
   row, so nothing is asked at the code phase. Do not ask again, and do not ask where the
   log goes — the locations are fixed below by artifact type.
 - **Standalone:** ask the human, through the selector, with the same multi-select over the roster's
@@ -63,9 +65,11 @@ point, not the roster. Free models rotate, do not share a provider, and get capp
 model that dies mid-run, counts as gone — then law 3 applies with the caller's failure policy.
 
 One `subagent` call per reviewer, `agent: "general"`, passing the model **on the call** as
-`provider/model` (or `provider/model#variant`). The `description` is only a label. Without that
-argument the subagent inherits the session's model and the roster collapses into one voice
-reviewing itself.
+`provider/model` (or `provider/model#variant`), and resuming the child with its returned `sessionID`
+when the harness supports it. Without session resume, use the fresh-session path below with the full
+resend addendum — the loop and its evidence do not depend on resume working. The `description` is only
+a label. Without the model argument the subagent inherits the session's model and the roster collapses
+into one voice reviewing itself.
 
 ## Briefs
 

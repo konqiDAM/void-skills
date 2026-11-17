@@ -17,11 +17,14 @@ approves the plan unless the plan review says `wait` — the plan review still r
 
 ## Phase 5 — Plan review
 
-Read the `Reviewers:` line from the spec plus any `Reviewers override:` record — that combined list
-is the reviewers — and the sheet's plan-review after-green, then run
+Read the spec's `Reviewers:` line and its `## Reviewers` override section: each override replaces the
+named failed entry, so the resolved active list is the original selection in the same order. State
+that resolved list before dispatching. Then take the sheet's plan-review after-green and run
 `review-queue` with its plan brief over exactly that list, in roster order. When all are green, follow the second
 answer — `continue`, or `wait`, where the green verdict goes to the selector as `Approve` /
-`Change`. `Approve` makes the plan the execution contract. `Change` goes back to Phase 4 with
+`Change`. Present `Approve` / `Change` only where Phase 4 says the stop lands on the plan — plan-review
+`wait`, or STOPS `stop at each step` / `stop after the auto review`. Otherwise record the green result
+and proceed without asking. `Approve` makes the plan the execution contract. `Change` goes back to Phase 4 with
 their note: the plan file is edited and the queue runs again on the new text, the same loop the
 spec gets in Phase 2. Under `stop at each step` and `stop after the auto review` this is the stop,
 whatever the setting says. Under `stop before shipping` and `autopilot` it is a stop only where
@@ -44,8 +47,9 @@ the sheet named is stuck, not careful. Every other item on that skill's stop lis
 
 ## Phase 7 — Code review
 
-Read the `Reviewers:` line from the spec plus any `Reviewers override:` record, and the sheet's
-task-review after-green. The per-task pass sits between the builder's tasks — the next task
+Read the spec's `Reviewers:` line and its `## Reviewers` override section the same way — overrides
+replace the named entries, original order stands — and take the sheet's task-review after-green. The
+per-task pass sits between the builder's tasks — the next task
 starts only after that reviewer is clean — and the branch pass runs once, over the whole branch, at
 the end. `continue` moves to the next task, `wait` puts the green verdict to the selector. The review
 row is not the only gate: under `stop at each step` the run pauses after every task and after the
