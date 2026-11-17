@@ -759,6 +759,26 @@ VERDICT: MAJOR, 5 findings, 1 question. All closed.
 Q1 (`None` with a model still ticked?) ruled: reject the submit and re-ask — consistent with the
 zero-tick rule, so the reviewer list is never ambiguous.
 
+## 2026-11-17 — DeepSeek V4.1 Flash, second pass on the current text
+
+VERDICT: MAJOR, 7 findings, 2 questions. All closed.
+
+| # | Finding | Outcome |
+|---|---|---|
+| F1 | Autopilot substitutions were not recorded, so a dead model came back at the next artifact | accepted — every substitution goes in the freeze-exempt `## Reviewers` section, and "already used" is run-wide |
+| F2 | The final stop forbade asking END/PUBLISH again while `wait for me` still asked | accepted — one gate: "continue" at the final stop authorizes merge and push; in a mode with no final stop, `wait for me` is its own pause |
+| F3 | END=merge named no location or sequence for the merge | accepted — `session_move` to the primary checkout, pull the base, merge, re-test the merged tree |
+| F4 | A gate `Change` re-ran the queue without resetting round counts | accepted — a `Change` is a new artifact; counts reset |
+| F5 | `None` defined a stop by a review that would not run, in the wrong file | accepted — the clause moved into the STOPS bullet in the sheet |
+| F6 | VERSION needed a typed value in a selector declared not to be typed into | accepted — its entry offers `Enter a version` |
+| F7 | "never asks again" sat beside `wait`, which asks | accepted — "never re-asks which setting applies" |
+
+Q1 (which dispatch tool?) answered from fact: `subagent` accepts `agent`, `model` and `sessionID`,
+and every round of these reviews used them; no fallback for a missing model argument is needed.
+Q2 (three-round cap in autopilot?) ruled: it does not apply — autopilot keeps looping until clean or
+the roster is exhausted, and the report states the rounds. In the log, every artifact needed three
+or more rounds, so a cap of three would stop a default run at nearly every review.
+
 ## 2026-11-16 — editorial pass, then a cold read
 
 The pass first, no reviewer: one full read of all three files, five reconciliations. The autopilot

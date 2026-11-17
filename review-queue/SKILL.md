@@ -159,7 +159,7 @@ The reviewer's job ends when it reports. The agent acting on the findings uses
 
 ## Stop and escalate
 
-Stop and report when any of these holds:
+Stop and report when any of these holds — in **gated modes**:
 
 - three rounds with the same reviewer and still no clean verdict,
 - that reviewer raises in a later round what it could have raised in round 1 — the target is
@@ -169,6 +169,16 @@ Stop and report when any of these holds:
 
 Report rounds per reviewer, each verdict, every rejected finding with its ruling, and what is
 still open. Then the human rules. A fourth round happens only if they ask.
+
+**Autopilot is different:** the three-round cap does not apply. The queue keeps sending the updated
+artifact to the same reviewer until it is clean, or until a ruled-away finding it disputes reaches
+an exhausted roster. The final report states the rounds per reviewer. This is what keeps a default
+autonomous run from stopping at nearly every review — in the log, every artifact needed three or
+more rounds.
+
+A gate `Change` — the human sending a spec or plan back for revision — produces a **new artifact**:
+round counts start at zero and the "could have raised it in round 1" comparison starts fresh. The
+three-round cap applies to each artifact, not to the run's whole history.
 
 ## The log
 

@@ -18,8 +18,8 @@ ask.
 
 Every review point from here on asks only when to involve you — `continue` or `wait`. The reviewers
 were chosen once in Phase 2 and recorded in the spec: this sheet reads that list and never changes
-it (the roster is `../review-queue/references/models.md`). Each later phase prints the after-green setting before it runs (`Plan review: wait`) and never
-asks again.
+it (the roster is `../review-queue/references/models.md`). Each later phase prints the after-green
+setting before it runs (`Plan review: wait`) and never re-asks which setting applies.
 
 `CODE KIT` picks the review skill for the code points — settled here, because every pipeline
 question is settled before the plan.
@@ -27,8 +27,9 @@ question is settled before the plan.
 These are **setup, so they batch**: one selector call, one entry per row above. VERSION is always
 in the call — it is only used when PUBLISH is `push and tag`, and its default is the repo's tag
 convention, which the answer may override. That keeps the version settled here rather than asked at
-the release. Each row's Default is the recommendation, offered first. The table is what the agent
-shows before it asks, not a form the human types into.
+the release. Each row's Default is the recommendation, offered first. VERSION is the one entry that
+may take a typed value: it offers the computed next patch plus `Enter a version`. The rest of the
+table is what the agent shows before it asks, not a form the human types into.
 
 If the recorded list is `None`, the three review rows and `CODE KIT` are moot — skip them; the sheet
 asks only STOPS, BUILDER, END and PUBLISH (and VERSION, which is always in the call).
@@ -51,7 +52,8 @@ task is complete.
   the settings sheet is itself a question, so neither is a stop.
 - `stop after the auto review` — one stop: the run goes through the spec review, the plan and the
   plan review, and stops when the plan review is green, before a line of code is written. Your word
-  releases it to implement and ship.
+  releases it to implement and ship. If the recorded list is `None`, no reviewers run and this stop
+  becomes a plain plan approval.
 - `stop before shipping` — no stop of its own during the run; one at the end: after the code is
   finished, the tests are green and the reviewers said OK, and before anything is merged or
   pushed. You see what shipped, and your word lets it go.
@@ -92,7 +94,8 @@ hard stops:
 - security-sensitive;
 - a side effect outside the worktree that END did not name;
 - a plan whose every available path risks breaking the spec, scope, or an irreversible boundary;
-- a review queue hitting an escalation trigger (`review-queue`);
+- a review queue hitting an escalation trigger (`review-queue` — a disputed ruling or an exhausted
+  roster in autopilot);
 - a reviewer model that dies or cannot be reached with no roster row left to substitute
   (`review-queue` law 3 — autopilot substitutes top-down, every other mode stops);
 - a finding only the human can answer — a scope change, an approved spec conflict, domain

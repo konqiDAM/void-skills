@@ -28,8 +28,8 @@ and proceed without asking. `Approve` makes the plan the execution contract. `Ch
 their note: the plan file is edited and the queue runs again on the new text, the same loop the
 spec gets in Phase 2. Under `stop at each step` and `stop after the auto review` this is the stop,
 whatever the setting says. Under `stop before shipping` and `autopilot` it is a stop only where
-the plan review says `wait`. If the recorded list is `None`, no reviewers run and the stop of
-`stop after the auto review` becomes a plain plan approval.
+the plan review says `wait`. If the recorded list is `None`, this stop becomes a plain plan approval, as the STOPS bullet
+says.
 
 ## Phase 6 — Implement
 

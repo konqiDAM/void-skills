@@ -10,16 +10,18 @@
    plan and include any required release notes.
 3. **The final stop, then integrate and publish.** If STOPS stops here — `stop at each step` or
    `stop before shipping` — show what shipped: the tasks, the commits, the green test run, the
-   rounds per reviewer. END and PUBLISH were settled in the sheet; do not ask them again. Wait for
-   the word to continue.
-   Then integrate, as far as PUBLISH allows: END=merge merges locally, END=leave has nothing to
-   integrate, and END=PR is a remote action, so `wait for me` stops before the push and hands you
-   the branch.
-   If a merge happened, run the local gate once more on the merged result before anything goes to
-   the remote — the branch was green, the merged tree is a different thing.
+   rounds per reviewer. This is also PUBLISH's `wait for me` gate: "continue" here authorizes the
+   merge and the push together, so do not ask a second time. In a mode with no final stop, the
+   `wait for me` gate is itself a pause before any push.
+   Then integrate, as far as PUBLISH allows: END=leave has nothing to integrate, and END=PR is a
+   remote action, so `wait for me` stops before the push and hands you the branch. END=merge moves
+   to the primary checkout (`session_move`), pulls the base branch, merges there, then re-runs the
+   local gate on the merged result before anything goes remote — the branch was green, the merged
+   tree is a different thing.
    Then publish, exactly as PUBLISH says: `push and tag` pushes the branch — the tag is created and
    pushed in step 4, once the run is green, so a tag never sits on a commit CI rejected; `push only`
-   pushes the branch; `wait for me` leaves the remote untouched and asks.
+   pushes the branch; `wait for me` leaves the remote untouched and asks when there was no final
+   stop — with one, it was already authorized.
    With END=PR a push does not create the PR: after it, open the pull request with the forge's CLI,
    or print its creation URL when there is no CLI. Never force-push, never push a branch nobody
    named, and never create a tag unless PUBLISH named it — a tag publishes a release.
