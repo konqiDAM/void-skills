@@ -217,4 +217,4 @@ not exist yet.
 
 ---
 
-History of this file's own reviews: `REVIEW-LOG.md` in this directory.
+History of this file's own reviews is kept locally in `REVIEW-LOG.md`; it is not published in this repo.
