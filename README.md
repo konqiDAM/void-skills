@@ -1,8 +1,56 @@
 # void-skills
 
-Skills for [OpenCode](https://opencode.ai). One folder per skill, each with a `SKILL.md` the
-harness loads when its description matches a request. Supporting files are read by the skill itself,
-at the moment it needs them.
+Skills for [OpenCode](https://opencode.ai): `agentic-pipeline`, `review-queue`, `comfyui-setup`,
+`game-asset-pipeline`. One folder per skill, each with a `SKILL.md`; supporting files load only when
+the skill needs them.
+
+## Install
+
+### Agentic pipeline
+
+Copy this into any agent. It installs `agentic-pipeline` and its required `review-queue` — nothing else.
+
+```
+Install skills from https://github.com/konqiDAM/void-skills:
+fetch https://raw.githubusercontent.com/konqiDAM/void-skills/main/Agents_Install.md and follow it.
+I want: agentic-pipeline.
+```
+
+<details>
+<summary>All skills</summary>
+
+Copy this instead if you want all four skills:
+
+```
+Install skills from https://github.com/konqiDAM/void-skills:
+fetch https://raw.githubusercontent.com/konqiDAM/void-skills/main/Agents_Install.md and follow it.
+I want: all.
+```
+
+</details>
+
+<details>
+<summary>Manual install</summary>
+
+```sh
+git clone https://github.com/konqiDAM/void-skills.git
+cp -r void-skills/agentic-pipeline void-skills/review-queue void-skills/comfyui-setup void-skills/game-asset-pipeline ~/.config/opencode/skills/
+```
+
+On Windows the target is `%USERPROFILE%\.config\opencode\skills\`. A symlink works too — the structure
+is the same one OpenCode reads: `<skills>/<name>/SKILL.md`, with `references/` loaded by the skill when
+it needs them. `agentic-pipeline/references/` holds `settings.md`, `plan-and-build.md` and `ship.md`;
+`review-queue/references/` holds `briefs.md` and `models.md`.
+
+Dependencies: [superpowers](https://github.com/obra/superpowers) for the pipeline's delegates and
+[ponytail](https://github.com/DietrichGebert/ponytail) for `ponytail-review`, one of the two `CODE KIT`
+choices. The two AI skills have no code dependencies. [`Agents_Install.md`](Agents_Install.md) has the
+exact install commands, the diff-before-overwrite rule and the final report an agent should give.
+
+</details>
+
+<details>
+<summary>What each skill does</summary>
 
 | Skill | What it is for |
 |---|---|
@@ -11,43 +59,15 @@ at the moment it needs them.
 | [`comfyui-setup`](comfyui-setup/SKILL.md) | operate a local ComfyUI install: model layout, launch flags, the failure modes |
 | [`game-asset-pipeline`](game-asset-pipeline/SKILL.md) | turn that install into game assets: sprites, textures, 3D props, video — with the licensing |
 
-## Install
-
-```sh
-git clone https://github.com/konqiDAM/void-skills.git
-cp -r void-skills/agentic-pipeline void-skills/review-queue void-skills/comfyui-setup void-skills/game-asset-pipeline ~/.config/opencode/skills/
-```
-
-On Windows the target is `%USERPROFILE%\.config\opencode\skills\`. A symlink works too — the
-structure is the same one OpenCode reads: `<skills>/<name>/SKILL.md`, with any `references/` read by
-the skill itself when it needs them.
-
-**Or paste this into any agent** — the details live in the repo, not in the prompt:
-
-```
-Install skills from https://github.com/konqiDAM/void-skills:
-fetch https://raw.githubusercontent.com/konqiDAM/void-skills/main/Agents_Install.md and follow it.
-I want: agentic-pipeline (default) — change that to "all" or name a skill if needed.
-```
-
-[`Agents_Install.md`](Agents_Install.md) holds the selection table, the target directory on both OSes,
-the `references/` files each skill needs, the superpowers and ponytail dependencies, the diff-before-
-overwrite rule, and what to report at the end. By default the agent installs `agentic-pipeline` and
-its required `review-queue`; nothing else.
-
-## agentic-pipeline
-
-**Triggers on**: "run the pipeline", "full agentic", "spec then plan", "auto review", "full auto",
-"autopilot" — or any non-trivial feature or multi-file change. If the pipeline was not named, the
-skill asks once before doing anything.
-
-**What it does**: nine phases, each with a defined human gate and a defined delegate.
+**agentic-pipeline** triggers on "run the pipeline", "full agentic", "spec then plan", "auto review",
+"full auto", "autopilot" — or any non-trivial feature. If not named, it asks once before doing
+anything. Nine phases, each with a human gate and a delegate:
 
 | Phase | Delegates to | The human answers |
 |---|---|---|
 | 0. Contract and workspace | this skill, `using-git-worktrees` | worktree? |
 | 1. Spec | `brainstorming` | what to build, one question at a time |
-| 2. Spec review | `review-queue` | reviewers, then spec ok / change |
+| 2. Spec review | `review-queue` | which reviewers, then spec ok / change |
 | 3. Settings sheet | this skill | where to stop and how to build, one batched call |
 | 4. Plan | `writing-plans` | plan ok / change when that stop applies |
 | 5. Plan review | `review-queue` | from the sheet |
@@ -55,84 +75,31 @@ skill asks once before doing anything.
 | 7. Code review | `requesting-code-review` / `ponytail-review` + `review-queue` | from the sheet |
 | 8. Ship | `verification-before-completion`; the finishing checks | go / no-go at the final stop |
 
-**How it is laid out** — deliberately split, so a declined run costs almost nothing:
+The file is split so a declined run costs almost nothing: `SKILL.md` holds Phases 0–2 and the laws;
+`settings.md` Phase 3; `plan-and-build.md` Phases 4–7; `ship.md` Phase 8. Defaults are autonomous —
+`autopilot`, all review points `continue`, TDD mandatory. The one stop the defaults keep is the push,
+because a push cannot be taken back. Reviewers are picked once at Phase 2 from the ordered roster and
+reused for every later review.
 
-| File | Holds |
-|---|---|
-| `SKILL.md` | the "run it or not" question, the six laws, the phase map, Phases 0–2, the rationalization table |
-| `references/settings.md` | Phase 3 — the sheet, the stops, the two dials, publishing, the builder choice |
-| `references/plan-and-build.md` | Phases 4–7 — plan, plan review, implement, code review |
-| `references/ship.md` | Phase 8 and the final report |
-| `REVIEW-LOG.md` | every review round of the skill itself, with findings and rulings |
+**review-queue** reviews one artifact with several reviewers, one at a time. A reviewer loops until it
+is clean — the controller fixes what it found and resends, same session where possible — then the next
+starts. In autopilot it substitutes the highest-ranked unused row until one answers; in every other
+mode a dead model stops the run and asks. The ordered roster is
+[`review-queue/references/models.md`](review-queue/references/models.md); `briefs.md` holds the exact
+spec, plan and code briefs plus the resend addendum.
 
-**Defaults are autonomous**: stop mode `autopilot`, all three review points on `continue`, TDD
-mandatory. The one stop the defaults keep is the push (`PUBLISH wait for me`) — a push is the one
-action a run cannot take back. Every question is asked once, in one place: the spec questions one at
-a time during Phase 1, everything else in the single batched settings call after the spec.
+**comfyui-setup** is the operating manual for one machine: folder layout per model type, nine critical
+rules (both `widgets_values` and `widgets_values_named`, restart after adding models, int8/FP8 builds
+for 28 GB, the H3 video flags, never mix model types), a model install procedure with a safetensors
+header check, normal and video launch commands, a settings table and a common-issues table. It assumes
+Windows, ComfyUI 0.44.0 at `D:\AI\ComfyUI`, models at `D:\AI\models`, 24 GB VRAM and 28 GB RAM.
 
-## review-queue
-
-**Triggers on**: reviewing a spec, plan, diff or PR with external models — or when
-`agentic-pipeline` reaches a review phase.
-
-**What it does**: one artifact, several reviewers, **one at a time**. A reviewer loops on itself
-until it says clean — the controller fixes what it found and sends the updated artifact back, same
-session where possible — then the next reviewer starts. Three rounds on one reviewer with no clean
-verdict stops the queue and asks the human.
-
-**The roster** lives in [`review-queue/references/models.md`](review-queue/references/models.md), in
-order of preference — the order *is* the roster, so one reviewer means the first row and "all" means
-the whole list. Adding, removing or reordering a model is an edit to that table only; no other file
-names one.
-
-A model that is missing, capped or gone stops the run and the human picks the replacement — never an
-automatic substitute.
-
-**Layout**: `SKILL.md` holds the three laws, triage, receiving rules, escalation and the log.
-`references/models.md` is the ordered roster. `references/briefs.md` holds the exact text sent to a
-reviewer — the spec, plan and code briefs plus the resend addendum — and loads only at the first
-dispatch.
-
-## comfyui-setup
-
-**Triggers on**: installing or running ComfyUI, adding or moving models, a workflow that will not
-load, "missing model", out-of-memory or black-screen crashes, the video pipeline's launch flags.
-
-**What it does**: the operating manual for one machine. It covers the folder layout and which model
-type belongs in which folder; nine critical rules (update both `widgets_values` and
-`widgets_values_named`, restart after adding a model, int8/FP8 builds for 28 GB of RAM, the H3
-video flags, never mix model types); the install procedure for a new model, including a safetensors
-header check and verifying the loader sees it; normal and video launch commands; a model/settings
-table; and a common-issues table — `hostbuf_file_reader_read failed`, the H3 `Fault failed: 2`, the
-TDR black screen, the "missing model" dialog, a model absent from the dropdown.
-
-**Assumes**: Windows, ComfyUI 0.44.0 portable at `D:\AI\ComfyUI`, models at `D:\AI\models`, 24 GB
-VRAM, 28 GB RAM. The paths are hard-coded — on another machine, edit them first.
-
-## game-asset-pipeline
-
-**Triggers on**: making sprites, textures, 3D props, video clips or skyboxes for a game.
-
-**What it does**: maps a task to the model and the exact workflow JSON, then gives the steps per
-asset type:
-
-| Asset | Route |
-|---|---|
-| Sprites | SDXL + Pixel-Art-XL → nearest-neighbour downscale → palette-limit → hand cleanup → seed lock or a character LoRA |
-| Textures | tileable albedo → seam fix → PBR extraction → ORM channel-pack → upscale |
-| 3D props | concept image → Pixal3D / TRELLIS.2 → remesh and decimate → retopo, UV, LOD in Blender → auto-rig → export |
-| Video | MiniMax H3, 5 s at 864×480, 4-step turbo |
-| Skyboxes | Z-Image Turbo with the equirectangular LoRA |
-
-Each pipeline states its honest limit — AI pixel art is not a true pixel grid, precise brick
-patterns still belong in Substance Designer, characters still need manual rigging — and the skill
-carries a licensing table that separates Apache/MIT (ship it), revenue-capped, non-commercial and
-research-only models, plus the disclosure rules (Steam, Civitai LoRAs, US copyright).
-
-**Assumes**: the machine above, with `comfyui-setup` already applied. It also names specific
-installed models, so the "installed vs available on request" list is a snapshot.
-
-## How the pairs fit
+**game-asset-pipeline** maps a task to a model and workflow: sprites (SDXL + Pixel-Art-XL → nearest
+downscale → palette-limit → cleanup), textures (tileable albedo → seam fix → PBR → ORM → upscale),
+3D props (concept → Pixal3D / TRELLIS.2 → retopo in Blender → auto-rig → export), video (MiniMax H3),
+skyboxes (Z-Image + equirectangular LoRA). Each states its honest limit, and a licensing table separates
+Apache/MIT, revenue-capped, non-commercial and research-only models, plus Steam disclosure, Civitai
+LoRAs and US copyright. It assumes the machine above and `comfyui-setup` already applied.
 
 ```
 agentic-pipeline
@@ -145,10 +112,10 @@ agentic-pipeline
 game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 ```
 
-`review-queue` is usable on its own: point it at a spec, a plan, a diff or a PR.
-`game-asset-pipeline` assumes the install `comfyui-setup` describes.
+</details>
 
-## Requirements
+<details>
+<summary>Requirements</summary>
 
 - **OpenCode**. These are OpenCode skills; nothing here is Tauri, Node or a web app.
 - **superpowers** ([github.com/obra/superpowers](https://github.com/obra/superpowers)) — `agentic-pipeline`
@@ -160,7 +127,10 @@ game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 - Reviewer models: the roster in `review-queue/references/models.md`, plus a working `opencode-go`
   (or `opencode`) provider. If a model is capped, the queue stops and asks — by design.
 
-## Principles the coding skills follow
+</details>
+
+<details>
+<summary>Principles the coding skills follow</summary>
 
 - **The human owns the gates.** A gate is an answer, not an assumption — "sounds good" is not
   approval of a document nobody read.
@@ -171,8 +141,13 @@ game-asset-pipeline  ──► comfyui-setup (the machine and its model layout)
 - **Questions have shapes**: setup questions batch into one call; substance questions go one at a
   time. A text block expecting a typed reply is not a question.
 
-## History
+</details>
+
+<details>
+<summary>History</summary>
 
 Every design decision, review round, finding and ruling for the coding skills is in
 [`agentic-pipeline/REVIEW-LOG.md`](agentic-pipeline/REVIEW-LOG.md). It is long on purpose: it records
 what was tried, what broke, and why the current text says what it says.
+
+</details>
