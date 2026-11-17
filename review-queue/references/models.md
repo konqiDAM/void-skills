@@ -18,9 +18,10 @@ All but row 4 are served by `opencode` and `opencode-go`; row 4 comes from `open
 that reaches it needs that provider configured. A provider without credit fails like a capped
 model — law 3 stops the run and the human chooses.
 
-**Row 4 cannot run on the current OpenRouter key.** Every call asks for 131 072 tokens and the key
-affords about 10 149, at every variant — so it is a key limit, not the suffix. Raise that key's limit
-or remove the row; until then an "all" run stops at row 4 and asks.
+**Row 4 cannot run on this OpenRouter account.** Every call asks for 131 072 tokens and the account
+affords about 10 149 — at every variant, and the provider's own answer is "upgrade to a paid
+account". It is not the suffix and not the key's limit. Remove the row, or keep it for the day the
+account is upgraded; until then an "all" run stops at row 4 and asks.
 
 **Changing the roster is an edit to this table only** — no other file names a model. Keep the order
 meaningful: the first row is what a one-reviewer run gets, so the strongest general reader goes
