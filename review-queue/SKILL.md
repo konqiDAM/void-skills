@@ -16,8 +16,8 @@ settles them depends on how you got here:
 - **Inside `agentic-pipeline`:** the pipeline supplies one reviewer list, chosen once in Phase 2 and
   recorded in the spec; it is used for every artifact, together with any recorded
   `Reviewers override:` record — autopilot substitutes are recorded there too. It also supplies the failure policy:
-  `substitute` (autopilot) or `stop` (every other mode); the **spec review always uses `stop`**, even
-  when STOPS becomes autopilot later — `substitute` begins at the plan review. It also supplies the
+  `substitute` (autopilot) or `stop` (assisted); the **spec review always uses `stop`**, even
+  when MODE becomes autopilot later — `substitute` begins at the plan review. It also supplies the
   code kit from the sheet's `CODE KIT`
   row, so nothing is asked at the code phase. Do not ask again, and do not ask where the
   log goes — the locations are fixed below by artifact type.
@@ -43,6 +43,10 @@ settles them depends on how you got here:
    The controller triages each finding by severity, not by asking: Critical/Must fix and
    Important/Should fix are fixed automatically, Minor/Nice to have is fixed or ruled away with a
    recorded reason. The conditions that need a human are in **Triage** below.
+
+   **Autopilot's cap:** ten rounds per reviewer per artifact. At the cap, Minor findings still open
+   become `## Known issues` in the final report and the queue advances. Critical and Important are
+   never demoted to a note because a round count ran out — they are fixed or stopped.
 3. **A model that is missing, gone or rates out is handled by the caller's failure policy.** Retry
    once. With `stop`, stop the queue and ask the human which model to use instead. With
    `substitute`, take the highest-ranked unused row of `references/models.md` — scan the roster top
@@ -122,6 +126,11 @@ and Important are fixed, Minor is fixed or ruled away with a reason. Ask the hum
 Everything else you decide, and a rejection needs a visible `Ruling: <decision> — <why> — <cost
 if wrong>`. Silently dropping a finding is the failure this skill exists to prevent.
 
+**Autopilot exception:** a reviewer QUESTION that the spec's recorded intent resolves is answered
+with a `Ruling:` carried in the resend addendum, not by asking the human. One that changes the
+approved spec, crosses an irreversible boundary, or needs domain knowledge nobody in the run has
+stays a hard stop.
+
 Confidence is not agreement — later reviewers read text earlier ones already fixed:
 
 | Signal | Meaning |
@@ -129,7 +138,7 @@ Confidence is not agreement — later reviewers read text earlier ones already f
 | the evidence quote is a real line of the artifact | a finding, not an impression |
 | the next reviewer re-raises it on the fixed text | the fix did not settle it |
 | it is still raised after two rounds of fixes | it was not taste |
-| it is only a QUESTION | the human answers it — one at a time, and never mixed with another reviewer's questions |
+| it is only a QUESTION | assisted: the human answers it, one at a time; autopilot: a spec-grounded Ruling, or a hard stop |
 
 Severity is one idea in two vocabularies:
 
@@ -159,7 +168,7 @@ The reviewer's job ends when it reports. The agent acting on the findings uses
 
 ## Stop and escalate
 
-Stop and report when any of these holds — in **gated modes**:
+Stop and report when any of these holds — in **assisted** mode:
 
 - three rounds with the same reviewer and still no clean verdict,
 - that reviewer raises in a later round what it could have raised in round 1 — the target is
@@ -170,11 +179,14 @@ Stop and report when any of these holds — in **gated modes**:
 Report rounds per reviewer, each verdict, every rejected finding with its ruling, and what is
 still open. Then the human rules. A fourth round happens only if they ask.
 
-**Autopilot is different:** the three-round cap does not apply. The queue keeps sending the updated
-artifact to the same reviewer until it is clean. If the reviewer disputes a ruling it will not accept,
-or the roster is exhausted, stop and ask the human — those are the only exits. The final report states
-the rounds per reviewer. This is what keeps a default autonomous run from stopping at nearly every
-review — in the log, every artifact needed three or more rounds.
+**Autopilot is different:** no three-round cap, and **never ask "should another round run?"** Each
+reviewer gets ten rounds per artifact. At the cap, Minor findings still open are written under
+`## Known issues` in the final report and the queue advances to the next reviewer; Critical and
+Important are still fixed or stopped. The only human exits are a reviewer that disputes a ruling, a
+roster with no unused row left, and the hard stops named in the sheet (red CI, approved-spec
+conflict, destructive or security-sensitive action). The final report states the rounds per
+reviewer. This is what keeps a default autonomous run from stopping at nearly every review — in the
+log, every artifact needed three or more rounds.
 
 A gate `Change` — the human sending a spec or plan back for revision — produces a **new artifact**:
 round counts start at zero and the "could have raised it in round 1" comparison starts fresh. The
@@ -191,4 +203,6 @@ controller appends the log; external reviewers remain read-only.
 
 Write the log once the queue is green, not between rounds: a dispatched artifact must not carry an
 earlier reviewer's findings, or the next reviewer reads a list to agree with instead of a document
-to judge. If the queue stops on an escalation, the report carries the rounds.
+to judge. If a queue hits the autopilot cap, its Minor leftovers go under `## Known issues` in the
+final report, not into the green-only log. If the queue stops on an escalation, the report carries
+the rounds.

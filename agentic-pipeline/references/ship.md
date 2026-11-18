@@ -8,11 +8,11 @@
    operating rules or the code map changed; update `README.md` only when user-facing behavior or
    setup changed; never edit the approved spec during shipping. Always add `Status: done` to the
    plan and include any required release notes.
-3. **The final stop, then integrate and publish.** If STOPS stops here — `stop at each step` or
-   `stop before shipping` — show what shipped: the tasks, the commits, the green test run, the
-   rounds per reviewer. This is also PUBLISH's `wait for me` gate: "continue" here authorizes the
-   merge and the push together, so do not ask a second time. In a mode with no final stop, the
-   `wait for me` gate is itself a pause before any push.
+3. **The final stop, then integrate and publish.** In `assisted`, this is the final gate: show what
+   shipped — the tasks, the commits, the green test run, the rounds per reviewer. This is also
+   PUBLISH's `wait for me` gate: "continue" here authorizes the merge and the push together, so do
+   not ask a second time. In `autopilot` there is no final gate; the `wait for me` gate alone is the
+   pause before any push.
    Then integrate, as far as PUBLISH allows: END=leave has nothing to integrate, and END=PR is a
    remote action, so `wait for me` stops before the push and hands you the branch. END=merge moves
    to the primary checkout (`session_move`), pulls the base branch, merges there, then re-runs the
@@ -48,8 +48,8 @@
    where feedback lands, and the worktree is where you address it. Keep its name in the report.
 
 Report: what shipped, tasks and commits, rounds per reviewer, every ruling, every model substitution
-(who was asked for, who ran, and why), the CI conclusion, and the list autopilot would have asked
-about.
+(who was asked for, who ran, and why), `## Known issues` — the Minor findings left when a reviewer
+reached the 10-round cap — the CI conclusion, and the list autopilot would have asked about.
 
 ---
 

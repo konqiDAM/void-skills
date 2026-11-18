@@ -34,7 +34,7 @@ the answer is the task itself.
    pause on, execution is not.
 4. **Evidence before assertions.** No task, gate or ship step is done without the command and
    its output.
-5. **One artifact, one reviewer at a time, until clean.** Never advance, never parallel.
+5. **One artifact, one reviewer at a time, until clean or the autopilot cap.** Never advance, never parallel.
 6. **Every question goes through the selector, in the right shape.** Setup questions — the sheet,
    reviewer choices, worktree consent — are asked **once each**, never dripped out: the sheet is one
    call with one entry per decision, the reviewer choice is one multi-select over the roster's names,
@@ -49,7 +49,7 @@ the answer is the task itself.
 | 0. Contract and workspace | this file, `using-git-worktrees` | worktree? |
 | 1. Spec | `brainstorming` | what to build (questions, one at a time) |
 | 2. Spec review | `review-queue` | reviewers; then spec ok / change |
-| 3. Settings sheet | `references/settings.md` | where to stop + how to build |
+| 3. Settings sheet | `references/settings.md` | mode + how to build |
 | 4. Plan | `writing-plans` | plan ok / change when that stop applies |
 | 5. Plan review | `review-queue` | (from the sheet) |
 | 6. Implement | `subagent-driven-development` or `executing-plans` | (from the sheet) |
@@ -62,8 +62,8 @@ interleave: each task is implemented, its review runs, and only then does the ne
 **This file holds Phases 0–2. Each later phase is its own file — read it when the phase starts,
 never from memory:**
 
-- `references/settings.md` — Phase 3: the settings sheet, the stops, the two dials, publishing and
-  the builder choice.
+- `references/settings.md` — Phase 3: the settings sheet, the two modes, publishing, the coder and
+  builder choices.
 - `references/plan-and-build.md` — Phases 4–7: the plan, its review, the build and its review.
 - `references/ship.md` — Phase 8: the ship steps and the final report.
 
@@ -169,7 +169,7 @@ anywhere in the run, not just this queue, so a dead model is never retried at a 
 `None` means no external queue runs: note it, go straight to the human confirmation below, and
 carry `None` forward to the later review points.
 
-That is the only question here: the spec has no after-green switch, because the human answers
+That is the only question here: the spec has no per-review dial, because the human answers
 after the reviewers are green in every mode. Green is `review-queue`'s word for it: every reviewer
 in that list returned its own clean verdict. The stop mode is not chosen until the sheet, so this
 first review runs with the `stop` failure policy — a failed model here asks you, never substitutes.
@@ -208,7 +208,7 @@ not exist yet.
 | "Running all three at once saves time" | It costs attribution: you cannot tell which fix answered which finding. |
 | "This model only raised MINORs, fold it into the next" | MINOR still blocks that reviewer. One at a time. |
 | "Two of three are clean, close enough" | Only a clean verdict advances, and each reviewer keeps the last word until it says OK. |
-| "A fourth round will converge" | Three on one reviewer is the escalation trigger. The human rules. |
+| "A fourth round will converge" | Three on one reviewer escalates in assisted; autopilot caps at ten per artifact and records what is left. |
 | "Three clean verdicts mean the spec is good" | On a vague spec they mean it was too vague to attack. Check what they quoted. |
 | "Autopilot means the reviews are optional" | It removes the stops, not the queue. |
 | "Autopilot is fast, I'll skip the plan" | The plan is where autopilot is cheapest to correct. |

@@ -1,114 +1,76 @@
 # Phase 3 — Settings sheet
 
 Decided once, after the spec and before the plan: the spec is the last thing that changes
-cheaply. Ask where to stop and the rest in **one** selector call — autopilot has no later moment to
-ask.
+cheaply. Ask the mode and the build choices in **one** selector call — autopilot has no later moment
+to ask.
 
 | Setting | Options | Default |
 |---|---|---|
-| STOPS | stop at each step / stop after the auto review / stop before shipping / autopilot | autopilot |
+| MODE | assisted / autopilot | autopilot |
 | BUILDER | one agent inline / one fresh agent per task | per task |
-| PLAN REVIEW | after-green: continue / wait | continue |
-| TASK REVIEW | after-green: continue / wait | continue |
-| BRANCH REVIEW | after-green: continue / wait | continue |
+| CODER MODEL | roster names, or `builder chooses per task` | builder chooses per task |
 | CODE KIT | requesting-code-review / ponytail-review / both | requesting |
 | END | merge to main / PR / leave the branch | the git flow the contract names; with none named, no default — this row settles it |
 | PUBLISH | push and tag / push only / wait for me | wait for me |
 | VERSION | the version to tag, e.g. `v1.2.4` | next patch from `git tag --list 'v*'` |
 
-Every review point from here on asks only when to involve you — `continue` or `wait`. The reviewers
-were chosen once in Phase 2 and recorded in the spec: this sheet reads that list and never changes
-it (the roster is `../review-queue/references/models.md`). Each later phase prints the after-green
-setting before it runs (`Plan review: wait`) and never re-asks which setting applies.
+The reviewers were chosen once in Phase 2 and recorded in the spec; this sheet reads that list and
+never changes it (the roster is `../review-queue/references/models.md`). `CODE KIT` picks the review
+skill for the code points. `CODER MODEL` lists the same roster names — coding uses the models you
+already trust to read — with `builder chooses per task` as the default, because the builder scales
+the model to task difficulty.
 
-`CODE KIT` picks the review skill for the code points — settled here, because every pipeline
-question is settled before the plan.
+**MODE decides every gate. There are no per-review dials.**
+
+- `assisted` — the human is asked at every gate: plan approval, the pause after plan review before
+  any code, after each task, after the branch verdict, and before git. Each per-task pause shows
+  that task's green summary and asks continue or stop; "stop" ends the run with the ship report and
+  leaves the worktree in place.
+- `autopilot` — no routine gate. The run goes to the end. The orchestrator resolves routine
+  questions from the spec's intent and records `Ruling: <decision> — <why> — <cost if wrong>`.
+
+The spec confirmation still happens in both modes: it is Phase 2, before the mode exists. `PUBLISH
+wait for me` is the single pause before the git work, in either mode — there is no second
+pre-git switch.
 
 These are **setup, so they batch**: one selector call, one entry per row above. VERSION is always
 in the call — it is only used when PUBLISH is `push and tag`, and its default is the repo's tag
-convention, which the answer may override. That keeps the version settled here rather than asked at
-the release. Each row's Default is the recommendation, offered first. VERSION is the one entry that
-may take a typed value: it offers the computed next patch plus `Enter a version`. The rest of the
-table is what the agent shows before it asks, not a form the human types into.
+convention, which the answer may override. Each row's Default is the recommendation, offered first.
+VERSION is the one entry that may take a typed value: it offers the computed next patch plus
+`Enter a version`. The rest of the table is what the agent shows before it asks, not a form the human
+types into.
 
-If the recorded list is `None`, the three review rows and `CODE KIT` are moot — skip them; the sheet
-asks only STOPS, BUILDER, END and PUBLISH (and VERSION, which is always in the call).
+If the recorded reviewer list is `None`, `CODE KIT` is moot — skip it; the sheet asks MODE, BUILDER,
+CODER MODEL, END, PUBLISH and VERSION.
 
-END's default is the git flow the contract describes, not an opinion about this repo. The plan
-review is `continue` by default — the plan is always checked, because every later mistake inherits
-it. The defaults stop you for one thing: the push (`PUBLISH wait for me`). That gate is
-deliberate — a push is the one action the run cannot take back. Choose `push only` if a default
-run should leave the machine on its own.
+END's default is the git flow the contract describes, not an opinion about this repo. The plan is
+always checked, because every later mistake inherits it. The defaults stop you for one thing: the
+push (`PUBLISH wait for me`). That gate is deliberate — a push is the one action the run cannot
+take back. Choose `push only` if a default run should leave the machine on its own.
 
 TDD is mandatory for every implementation task and is not a settings-sheet choice. Write the
 failing test, watch it fail, implement the minimum code, and watch the test pass before every
 task is complete.
 
-**Where it stops.** STOPS is one choice, not a list — the four are exclusive:
+## Autopilot
 
-- `stop at each step` — you are asked after the plan review, after each task, after the branch
-  review, and once at the end — one pause covering the merge and the push together. Each per-task pause shows that task's green summary
-  and asks continue or stop — "stop" ends the run with the ship report and leaves the worktree in
-  place. The spec approval already happened in Phase 2, and
-  the settings sheet is itself a question, so neither is a stop.
-- `stop after the auto review` — one stop: the run goes through the spec review, the plan and the
-  plan review, and stops when the plan review is green, before a line of code is written. Your word
-  releases it to implement and ship. If the recorded list is `None`, no reviewers run and this stop
-  becomes a plain plan approval.
-- `stop before shipping` — no stop of its own during the run; one at the end: after the code is
-  finished, the tests are green and the reviewers said OK, and before anything is merged or
-  pushed. You see what shipped, and your word lets it go.
-- `autopilot` — no stop of its own from this sheet on; one report at the end.
+Autopilot resolves routine questions itself and never asks "should another round run?". Each reviewer
+gets **10 rounds per artifact**. At the cap, findings still open are handled by severity:
 
-**The two dials.** STOPS is where the run pauses on its own. The review rows are the other dial: a
-review point set to `wait` is asked wherever it lands, in every mode; `continue` means nobody is
-asked there. Where both land on the same moment, the pause happens once and the prompt carries the
-review summary. `autopilot` has no pause of its own — the only pauses left are the review points
-you marked `wait`, and the safety stops below.
+- **Minor / Nice to have** — recorded under `## Known issues` in the final report as ruled leftovers,
+  and the queue advances to the next reviewer.
+- **Critical / Must fix and Important / Should fix** — keep the normal path: fix them, or stop. They
+  are never downgraded to a note because a round count ran out.
 
-The spec approval happens at the end of Phase 2, before the mode exists, so it happens in every
-mode; STOPS governs the run from this sheet onward. The spec review has no after-green switch —
-the human always confirms the spec. The sheet's three review rows carry `continue / wait` for the
-plan, task and branch reviews.
+A reviewer that disputes a ruling, a roster with no unused row left, a model that cannot be reached,
+red CI, an approved-spec conflict, a destructive or security-sensitive action, and a finding only the
+human can answer are **hard stops**. Everything else is a `Ruling:` recorded in the spec (Phase 1/2)
+or the plan file (Phase 4 onward), carried in the resend addendum, and reported at the end.
 
-**Publishing is a separate question.** END decides what integration happens — merge, PR, or leave
-the branch. PUBLISH decides whether the remote action happens by itself:
-
-- `push and tag` — push the branch, and once its run is green, create the next version tag from the
-  repo's own convention and push it. State the version before creating it. If the repo has no tag
-  convention, the version comes from the sheet's VERSION row, which the same call carries whenever
-  this option is on the table.
-- `push only` — push the branch, with no tag.
-- `wait for me` — stop before any push and let them do it.
-
-A tag publishes a release, so it happens only when PUBLISH says `push and tag`. With END=PR, the
-branch push and the PR are both remote actions — `wait for me` holds the pair back and leaves it to
-the human. No combination is forbidden, so a batched answer can never conflict.
-
-**Autopilot** means one run from this sheet on with no pause of its own, and one report at the
-end — what shipped, rounds per reviewer, every ruling, and the things you would have asked. Doubt
-becomes a `Ruling:` in the log — the spec while it is being written, the plan file after that. The
-only interruptions are the review points you set to `wait`, the `wait for me` push gate, and these
-hard stops:
-
-- destructive or irreversible;
-- security-sensitive;
-- a side effect outside the worktree that END did not name;
-- a plan whose every available path risks breaking the spec, scope, or an irreversible boundary;
-- a review queue hitting an escalation trigger (`review-queue` — a disputed ruling or an exhausted
-  roster in autopilot, both of which stop and ask);
-- a reviewer model that dies or cannot be reached with no roster row left to substitute
-  (`review-queue` law 3 — autopilot substitutes top-down, every other mode stops);
-- a finding only the human can answer — a scope change, an approved spec conflict, domain
-  knowledge nobody in the run has;
-- a CI run that is red after its attempts, or that cannot be watched (Phase 8).
-
-Autopilot still obeys PUBLISH: it never pushes or tags unless PUBLISH says so.
-
-It never merges, pushes or opens a PR the sheet did not name. It also pre-settles the
-delegated skills' gates: a review point set to `continue` stands in for the human gate it would
-otherwise be, and END is prior approval for exactly the one git action it names. A review point set
-to `wait` stops the run wherever it lands, even on autopilot.
+Autopilot still obeys PUBLISH: it never pushes or tags unless PUBLISH says so, and `wait for me`
+remains the one human pause before git. It never merges, pushes or opens a PR the sheet did not
+name. It also pre-settles the delegated skills' gates: END is prior approval for exactly the one git
+action it names.
 
 ### BUILDER
 

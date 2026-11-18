@@ -62,7 +62,7 @@ skill asks once before doing anything.
 | 0. Contract and workspace | this skill, `using-git-worktrees` | worktree? |
 | 1. Spec | `brainstorming` | what to build, one question at a time |
 | 2. Spec review | `review-queue` | which reviewers, then spec ok / change |
-| 3. Settings sheet | this skill | where to stop and how to build, one batched call |
+| 3. Settings sheet | this skill | mode and how to build, one batched call |
 | 4. Plan | `writing-plans` | plan ok / change when that stop applies |
 | 5. Plan review | `review-queue` | from the sheet |
 | 6. Implement | `subagent-driven-development` or `executing-plans` | from the sheet |
@@ -79,10 +79,12 @@ skill asks once before doing anything.
 | `references/ship.md` | Phase 8 and the final report |
 
 Reviewers are picked once at Phase 2 from the ordered roster and reused for every later review.
-Defaults are autonomous: stop mode `autopilot`, all three review points on `continue`, TDD mandatory.
-The one stop the defaults keep is the push (`PUBLISH wait for me`) — a push is the one action a run
-cannot take back. Every question is asked once, in one place: the spec questions one at a time during
-Phase 1, everything else in the single batched settings call after the spec.
+Two modes only: `assisted` asks at every gate, `autopilot` runs to the end. The default is `autopilot`,
+TDD is mandatory, and there are no per-review dials — the mode decides every gate. Autopilot caps each
+reviewer at 10 rounds per artifact and records Minor leftovers under `## Known issues`; the one human
+pause it keeps is the push (`PUBLISH wait for me`), because a push cannot be taken back. Every question
+is asked once, in one place: the spec questions one at a time during Phase 1, everything else in the
+single batched settings call after the spec.
 
 ## review-queue
 

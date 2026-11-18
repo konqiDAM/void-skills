@@ -15,6 +15,10 @@ Rules that apply to the first-round blocks below (spec, plan, code):
 The resend block at the bottom is not one of these: it goes to the same reviewer, in the same
 session where the run allows it, and it is meant to see its own previous findings.
 
+A first-round QUESTION is not a human prompt in autopilot: the orchestrator answers it from the
+spec's recorded intent as a `Ruling:` and carries that ruling in the round-2 addendum. A question
+that changes the approved spec or crosses an irreversible boundary is a hard stop instead.
+
 ## Spec
 
 ```
